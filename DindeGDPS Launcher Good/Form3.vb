@@ -1,9 +1,10 @@
 ﻿Imports System.ComponentModel
+Imports System.Globalization
 Imports System.IO
 Imports System.Reactive
+Imports System.Security.Cryptography.X509Certificates
 Imports System.Windows.Media.Animation
 Public Class Form3
-
     Private Sub ChangeControlColors(ByVal container As Control.ControlCollection, ByVal colorName As String)
         For Each ctrl As Control In container
             If TypeOf ctrl Is Label OrElse TypeOf ctrl Is Button OrElse TypeOf ctrl Is ComboBox OrElse TypeOf ctrl Is CheckBox OrElse TypeOf ctrl Is LinkLabel Then
@@ -62,7 +63,37 @@ Public Class Form3
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-
+        If TextBox1.Text.Length <= 1 Then
+            Return
+        End If
+        If [Enum].IsDefined(GetType(KnownColor), TextBox1.Text.Substring(0, 1).ToUpper() + TextBox1.Text.Substring(1)) = False Then
+            MsgBox("Invalid Color", vbOKOnly + vbExclamation, "Error")
+            Return
+        End If
+        Select Case TextBox1.Text.ToLower
+            Case "red"
+                Dim red = MsgBox($"We use Red to color buttons or text in order to notify you about something important.{nl}Are you sure you want to continue?", vbYesNo + vbExclamation, "DindeGDPS Launcher")
+                If red = vbNo Then
+                    Return
+                End If
+            Case "black"
+                MsgBox("bro wants to make the launcher unusable", vbOKOnly + vbCritical, "bruh")
+                Return
+        End Select
+        Form1.What(TextBox1.Text)
+        ApplyColor(TextBox1.Text)
+        ' Button1, 7, 8
+        Button1.ForeColor = Color.Red
+        Button7.ForeColor = Color.Red
+        Button8.ForeColor = Color.Red
+        Dim x = MsgBox("Do you want to keep those changes?", vbYesNo + vbQuestion, "DindeGDPS Launcher")
+        If x = vbYes Then
+            My.Settings.Color = TextBox1.Text
+            My.Settings.Save()
+        Else
+            Form1.What(My.Settings.Color)
+            ApplyColor(My.Settings.Color)
+        End If
     End Sub
 
     Private Async Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
@@ -84,10 +115,15 @@ Public Class Form3
     End Sub
 
     Private Sub Form3_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        If My.Settings.Simple = False Then
+            Button1.Text = "Enter Simple Mode"
+        End If
         ComboBox1.Text = My.Settings.Channel
         Button7.ForeColor = Color.Red
         Button8.ForeColor = Color.Red
         CheckBox1.Checked = Not My.Settings.DisableUpd
+        CheckBox2.Checked = My.Settings.CloseLauncher
+        ComboBox2.Text = My.Settings.ComboPos
     End Sub
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
@@ -142,8 +178,23 @@ Public Class Form3
     End Sub
 
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
-        My.Settings.Simple = False
+        My.Settings.Simple = Not My.Settings.Simple
         My.Settings.Save()
         Application.Restart()
+    End Sub
+
+    Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
+        My.Settings.CloseLauncher = CheckBox2.Checked
+        My.Settings.Save()
+    End Sub
+
+    Private Sub TabPage3_Click(sender As Object, e As EventArgs) Handles TabPage3.Click
+
+    End Sub
+
+    Private Sub ComboBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox2.SelectedIndexChanged
+        My.Settings.ComboPos = ComboBox2.Text
+        My.Settings.Save()
+        Form1.Form1_Resize(sender, e)
     End Sub
 End Class

@@ -72,6 +72,12 @@ Public Class Setup2
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        ' Why did I think this was a good idea
+        ' Dim asking = MsgBox("DindeGDPS recommends installing PlatinumGDPS alongside DindeGDPS 1.9" + nl + "Do you want to check out their website? " + nl + " (Clicking yes will enable the dgdps protocol)", vbYesNo + vbQuestion + "Recommendation for 1.9 players")
+        ' If asking = vbYes Then
+        '   Process.Start("https://platinum.141412.xyz")
+        '   RegisterProtocol()
+        ' End If
         Form1.ComboBox1.Text = "gd19"
         My.Settings.DfPS = "gd19"
         My.Settings.Save()

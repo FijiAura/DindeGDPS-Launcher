@@ -38,11 +38,12 @@ Public Class Setup1
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         TextBox1.Enabled = False
-        Dim code = GDPost()
-        If code = "1" Then
+        Dim code As String
+        code = GDPost()
+        If Not code.StartsWith("-") Then
             My.Settings.Player = TextBox1.Text
+            My.Settings.token = code
             My.Settings.Save()
-            Form1.Label1.Text = Form1.GetGreeting()
             MsgBox($"Logged in successfully as {TextBox1.Text}!")
             Close()
         Else
@@ -51,13 +52,21 @@ Public Class Setup1
                 Case "-1"
                     reason = "(Invalid username/password/email)"
                 Case "-12"
-                    reason = "(Your IP has been banned. Please try again in a few hours)"
+                    reason = "(Your IP has been limited. Please try again in a few hours)"
                 Case "-4"
                     reason = "(Username too long)"
                 Case "-2"
                     reason = "(Username taken)"
                 Case "error code: 1015"
                     reason = "(Rate limited, please be patient, do not spam the button)"
+                Case "-9"
+                    reason = "(Username too short)"
+                Case "-8"
+                    reason = "(Password too short)"
+                Case "-6"
+                    reason = "(Invalid EMail)"
+                Case "-3"
+                    reason = "(Mail already used!)"
                 Case Else
                     reason = "(Unknown error)"
             End Select
@@ -73,14 +82,10 @@ Public Class Setup1
             Dim ee = MsgBox("It looks like you didn't want to log in..." & nl & "Do you want to continue as guest?", vbYesNo + vbExclamation, "DindeGDPS")
             If ee = vbYes Then
                 My.Settings.Player = "Guest"
-                Form1.Label1.Text = "Guest"
                 My.Settings.Save()
-                Form1.Label1.Text = Form1.GetGreeting()
             Else
                 e.Cancel = True
             End If
-        Else
-            Form1.Label1.Text = TextBox1.Text
         End If
     End Sub
 
@@ -98,11 +103,10 @@ Public Class Setup1
 
             Dim s As String
             If CheckBox1.Checked Then
-                ' s = "https://dindegmdps.us.to/database/accounts/registerGJAccount.php"
-                s = "https://webhook.site/f9ab18ff-89d7-4c9d-987b-8ebe69980236"
+                s = "https://gdps.dimisaio.be/database/accounts/registerGJAccount.php"
                 reqparm.Add("email", em)
             Else
-                s = "https://dindegmdps.us.to/database/accounts/loginGJAccount.php?easyapi=yes"
+                s = "https://gdps.dimisaio.be/api/getToken.php"
             End If
 
             Dim responsebytes = client.UploadValues(s, "POST", reqparm)

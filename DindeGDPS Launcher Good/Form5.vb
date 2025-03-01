@@ -3,15 +3,16 @@ Imports System.Xml
 Imports Ionic.Zip
 Imports System.Threading.Tasks
 Imports System.Net
-Imports System.Threading
+Imports System.Runtime.ConstrainedExecution
 Public Class Form5
+    Public Success = False
     Public url As String
     Public psname As String
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Me.Close()
     End Sub
 
-    Public Sub Fork(arg As String)
+    Public Function Fork(arg As String)
         ServicePointManager.SecurityProtocol = DirectCast(3072, SecurityProtocolType)
         ' The first argument is the executable path, so we start from the second argument
 
@@ -28,6 +29,7 @@ Public Class Form5
             End Using
         Catch ex As Exception
             MsgBox($"Error downloading logo image: {ex.Message}")
+            Return False
         End Try
 
         ' Download and display XML content
@@ -48,21 +50,30 @@ Public Class Form5
                 Dim gameNode As XmlNode = config.SelectSingleNode("game")
                 Dim author As XmlNode = config.SelectSingleNode("author")
                 If gameNode IsNot Nothing And author IsNot Nothing Then
-                    Me.psname = gameNode.InnerText
+                    psname = gameNode.InnerText
+                    Dim official As String() = {"gd19", "gd20", "gd21", "gd22", "gd22-old"}
+                    If official.Any(Function(value) psname = value) Then
+                        MsgBox("The GDPS cannot use gd19, gd20, gd21, gd22-old or gd22 as name! Changing it will fix it", vbOKOnly + vbCritical, "DindeGDPS")
+                        Return False
+                    End If
                     Me.url = $"{url}/{gameNode.InnerText}.zip"
                     Label1.Text = Label1.Text.Replace("GDPS", psname)
                     Label2.Text = Label2.Text + $"{url}/{psname}.zip"
                     Label3.Text = Label3.Text + $"{author.InnerText}"
+                    Return True
                 Else
                     Console.WriteLine("Game node not found.")
+                    Return False
                 End If
             Else
                 Console.WriteLine("Root element not found.")
+                Return False
             End If
         Else
             Console.WriteLine("Failed to download XML content.")
+            Return False
         End If
-    End Sub
+    End Function
 
     Private Sub Form5_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' MsgBox(url)
@@ -75,6 +86,11 @@ Public Class Form5
     End Sub
 
     Private Async Sub PSInst(name As String, url As String)
+        Dim chk = False
+        If Directory.Exists(Path.Combine(RootFS, name)) Then
+            Backup(name)
+            chk = True
+        End If
         Label5.Text = "Downloading..."
         ' tous les memes
         Dim verzip = Path.Combine(RootFS, $"{name}.zip")
@@ -95,16 +111,16 @@ Public Class Form5
                                End Sub)
         Await extract
 
+        If chk Then
+            Restore(name)
+        End If
+
         Label5.Text = "Done!"
         MsgBox("Installed successfully!" + nl + "DindeGDPS will (re)start.", vbOKOnly + vbInformation, "Instance Manager")
 
-        If IsOnlyInstance() = False Then
-            Dim Lol As New ProClient
-            Lol.SendMessage("what")
-            Environment.Exit(0)
-        Else
-            Close()
-        End If
+        Success = True
+
+        Close()
     End Sub
     Private Sub DownloadProgressCallback(sender As Object, e As DownloadProgressChangedEventArgs)
         ' Calculate the progress percentage

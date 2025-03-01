@@ -43,6 +43,11 @@ Partial Class Form4
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Button8 = New System.Windows.Forms.Button()
         Me.LinkLabel3 = New System.Windows.Forms.LinkLabel()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Button9 = New System.Windows.Forms.Button()
+        Me.Button10 = New System.Windows.Forms.Button()
+        Me.Button11 = New System.Windows.Forms.Button()
+        Me.Button12 = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'Button1
@@ -163,7 +168,7 @@ Partial Class Form4
         '
         Me.LinkLabel1.AutoSize = True
         Me.LinkLabel1.LinkColor = System.Drawing.Color.HotPink
-        Me.LinkLabel1.Location = New System.Drawing.Point(235, 133)
+        Me.LinkLabel1.Location = New System.Drawing.Point(344, 133)
         Me.LinkLabel1.Name = "LinkLabel1"
         Me.LinkLabel1.Size = New System.Drawing.Size(94, 13)
         Me.LinkLabel1.TabIndex = 13
@@ -181,14 +186,15 @@ Partial Class Form4
         '
         'LinkLabel2
         '
+        Me.LinkLabel2.ActiveLinkColor = System.Drawing.Color.CornflowerBlue
         Me.LinkLabel2.AutoSize = True
-        Me.LinkLabel2.LinkColor = System.Drawing.Color.Red
-        Me.LinkLabel2.Location = New System.Drawing.Point(281, 155)
+        Me.LinkLabel2.LinkColor = System.Drawing.Color.CornflowerBlue
+        Me.LinkLabel2.Location = New System.Drawing.Point(365, 155)
         Me.LinkLabel2.Name = "LinkLabel2"
-        Me.LinkLabel2.Size = New System.Drawing.Size(42, 13)
+        Me.LinkLabel2.Size = New System.Drawing.Size(73, 13)
         Me.LinkLabel2.TabIndex = 15
         Me.LinkLabel2.TabStop = True
-        Me.LinkLabel2.Text = "AdvDel"
+        Me.LinkLabel2.Text = "Show RootFS"
         '
         'Button7
         '
@@ -241,12 +247,67 @@ Partial Class Form4
         Me.LinkLabel3.TabStop = True
         Me.LinkLabel3.Text = "About false positives"
         '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(251, 61)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(57, 13)
+        Me.Label7.TabIndex = 21
+        Me.Label7.Text = "Installing..."
+        Me.Label7.Visible = False
+        '
+        'Button9
+        '
+        Me.Button9.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button9.Location = New System.Drawing.Point(335, 12)
+        Me.Button9.Name = "Button9"
+        Me.Button9.Size = New System.Drawing.Size(103, 23)
+        Me.Button9.TabIndex = 25
+        Me.Button9.Text = "Delete Mods"
+        Me.Button9.UseVisualStyleBackColor = True
+        '
+        'Button10
+        '
+        Me.Button10.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button10.Location = New System.Drawing.Point(335, 41)
+        Me.Button10.Name = "Button10"
+        Me.Button10.Size = New System.Drawing.Size(103, 23)
+        Me.Button10.TabIndex = 24
+        Me.Button10.Text = "Delete Mods"
+        Me.Button10.UseVisualStyleBackColor = True
+        '
+        'Button11
+        '
+        Me.Button11.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button11.Location = New System.Drawing.Point(335, 70)
+        Me.Button11.Name = "Button11"
+        Me.Button11.Size = New System.Drawing.Size(103, 23)
+        Me.Button11.TabIndex = 23
+        Me.Button11.Text = "Delete Mods"
+        Me.Button11.UseVisualStyleBackColor = True
+        '
+        'Button12
+        '
+        Me.Button12.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button12.Location = New System.Drawing.Point(335, 99)
+        Me.Button12.Name = "Button12"
+        Me.Button12.Size = New System.Drawing.Size(103, 23)
+        Me.Button12.TabIndex = 22
+        Me.Button12.Text = "Delete Mods"
+        Me.Button12.UseVisualStyleBackColor = True
+        '
         'Form4
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Black
-        Me.ClientSize = New System.Drawing.Size(335, 177)
+        Me.ClientSize = New System.Drawing.Size(453, 177)
+        Me.Controls.Add(Me.Button9)
+        Me.Controls.Add(Me.Button10)
+        Me.Controls.Add(Me.Button11)
+        Me.Controls.Add(Me.Button12)
+        Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.LinkLabel3)
         Me.Controls.Add(Me.Button7)
         Me.Controls.Add(Me.Label9)
@@ -269,9 +330,11 @@ Partial Class Form4
         Me.Controls.Add(Me.Button1)
         Me.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.MaximumSize = New System.Drawing.Size(351, 216)
-        Me.MinimumSize = New System.Drawing.Size(351, 216)
+        Me.MaximizeBox = False
+        Me.MaximumSize = New System.Drawing.Size(469, 216)
+        Me.MinimumSize = New System.Drawing.Size(469, 216)
         Me.Name = "Form4"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Instance Manager"
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -298,4 +361,9 @@ Partial Class Form4
     Friend WithEvents Label10 As Label
     Friend WithEvents Button8 As Button
     Friend WithEvents LinkLabel3 As LinkLabel
+    Friend WithEvents Label7 As Label
+    Friend WithEvents Button9 As Button
+    Friend WithEvents Button10 As Button
+    Friend WithEvents Button11 As Button
+    Friend WithEvents Button12 As Button
 End Class

@@ -14,9 +14,6 @@
     <Setting Name="Color" Type="System.String" Scope="User">
       <Value Profile="(Default)">CornflowerBlue</Value>
     </Setting>
-    <Setting Name="Version" Type="System.String" Scope="User">
-      <Value Profile="(Default)">2024-04-20</Value>
-    </Setting>
     <Setting Name="DfPS" Type="System.String" Scope="User">
       <Value Profile="(Default)">none</Value>
     </Setting>
@@ -40,6 +37,24 @@
     </Setting>
     <Setting Name="Simple" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Language" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Default</Value>
+    </Setting>
+    <Setting Name="WebVersion" Type="System.String" Scope="User">
+      <Value Profile="(Default)">1.01</Value>
+    </Setting>
+    <Setting Name="XPoint" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="token" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="YPoint" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="ComboPos" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Center</Value>
     </Setting>
   </Settings>
 </SettingsFile>

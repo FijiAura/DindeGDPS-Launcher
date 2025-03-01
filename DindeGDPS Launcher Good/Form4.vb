@@ -4,11 +4,19 @@ Imports System.Threading.Tasks
 Imports System.Net
 Public Class Form4
     Private Async Sub Form4_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        If Directory.Exists(Path.Combine(RootFS, "gd19", "Proxy")) Then
+            Dim req = MsgBox("Old 1.9 GDPS version detected. Due to incompatibility problems with the launcher, it has to be deleted!" & nl & "Are you sure you want to continue?" & nl & "It is recommended to delete it.", vbYesNo + vbExclamation, "1.9 GDPS")
+            If req = vbYes Then
+                Directory.Delete(Path.Combine(RootFS, "gd19"), True)
+            End If
+        End If
+
         If Directory.Exists(Path.Combine(RootFS, "gd19", "Resources")) Then
             Label9.Text = "Installed"
-            Button7.Text = "Uninstall"
+            Button8.Text = "Uninstall"
             If Await GDPSVerCheck("gd19", False) = False Then
-                Button4.Text = "Update"
+                Button7.Text = "Update"
             End If
         End If
 
@@ -28,10 +36,14 @@ Public Class Form4
             End If
         End If
 
-        If Directory.Exists(Path.Combine(RootFS, "gd22", "Resources")) Then
+        If Directory.Exists(Path.Combine(RootFS, "gd22", "Resources")) Or Directory.Exists(Path.Combine(RootFS, "gd22-old", "Resources")) Then
             Label6.Text = "Installed"
             Button3.Text = "Uninstall"
-            If Await GDPSVerCheck("gd22", False) = False Then
+            Dim idk = "gd22"
+            If Directory.Exists(Path.Combine(RootFS, "gd22-old", "Resources")) Then
+                idk = "gd22-old"
+            End If
+            If Await GDPSVerCheck(idk, False) = False Then
                 Button6.Text = "Update"
             End If
         End If
@@ -41,8 +53,12 @@ Public Class Form4
         If Button1.Text = "Install" Then
             PSInst("gd20")
             Button1.Text = "Uninstall"
+            Label4.Text = "Installed!"
         Else
-            Directory.Delete(Path.Combine(RootFS, "gd20"), True)
+            If Directory.Exists(Path.Combine(RootFS, "gd20", "Resources")) Then
+                Directory.Delete(Path.Combine(RootFS, "gd20"), True)
+            End If
+            Form1.ComboBox1.Items.Remove("gd20")
             Button1.Text = "Install"
         End If
     End Sub
@@ -51,8 +67,12 @@ Public Class Form4
         If Button2.Text = "Install" Then
             PSInst("gd21")
             Button2.Text = "Uninstall"
+            Label5.Text = "Installed!"
         Else
-            Directory.Delete(Path.Combine(RootFS, "gd21"), True)
+            If Directory.Exists(Path.Combine(RootFS, "gd21", "Resources")) Then
+                Directory.Delete(Path.Combine(RootFS, "gd21"), True)
+            End If
+            Form1.ComboBox1.Items.Remove("gd21")
             Button2.Text = "Install"
         End If
     End Sub
@@ -61,8 +81,14 @@ Public Class Form4
         If Button3.Text = "Install" Then
             PSInst("gd22")
             Button3.Text = "Uninstall"
+            Label6.Text = "Installed!"
         Else
-            Directory.Delete(Path.Combine(RootFS, "gd22"), True)
+            If Directory.Exists(Path.Combine(RootFS, "gd22", "Resources")) Then
+                Directory.Delete(Path.Combine(RootFS, "gd22"), True)
+            ElseIf Directory.Exists(Path.Combine(RootFS, "gd22-old", "Resources")) Then
+                Directory.Delete(Path.Combine(RootFS, "gd22-old"), True)
+            End If
+            Form1.ComboBox1.Items.Remove("gd22")
             Button3.Text = "Install"
         End If
     End Sub
@@ -77,14 +103,17 @@ Public Class Form4
         If Await GDPSVerCheck("gd21", True) = False Then
             Button5.Text = "Update"
         End If
-        If Await GDPSVerCheck("gd22", True) = False Then
+        Dim idk = "gd22"
+        If Directory.Exists(Path.Combine(RootFS, "gd22-old", "Resources")) Then
+            idk = "gd22-old"
+        End If
+        If Await GDPSVerCheck(idk, True) = False Then
             Button6.Text = "Update"
         End If
     End Sub
 
     Private Async Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
         If Button4.Text = "Update" Then
-            Directory.Delete(Path.Combine(RootFS, "gd20"), True)
             PSInst("gd20")
             Return
         ElseIf Await GDPSVerCheck("gd20", True) = False Then
@@ -95,8 +124,7 @@ Public Class Form4
 
     Private Async Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
         If Button5.Text = "Update" Then
-            Directory.Delete(Path.Combine(RootFS, "gd20"), True)
-            PSInst("gd20")
+            PSInst("gd21")
             Return
         ElseIf Await GDPSVerCheck("gd21", True) = False Then
             Button5.Text = "Update"
@@ -105,15 +133,35 @@ Public Class Form4
     End Sub
 
     Private Async Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        Dim idk = "gd22"
+        If Directory.Exists(Path.Combine(RootFS, "gd22-old", "Resources")) Then
+            idk = "gd22-old"
+        End If
         If Button6.Text = "Update" Then
-            Directory.Delete(Path.Combine(RootFS, "gd22"), True)
             PSInst("gd22")
-        ElseIf Await GDPSVerCheck("gd22", True) = False Then
+        ElseIf Await GDPSVerCheck(idk, True) = False Then
             Button6.Text = "Update"
         End If
     End Sub
-
+    Public Function AreWeFucked()
+        ' Check if computer isn't x64 and/or Windows 7-
+        ' Windows 7 check can be bypassed with kernelExt.txt (rework later)
+        ' Why the heck have I done it one line
+        Return If(Decimal.Parse($"{Environment.OSVersion.Version.Major}.{Environment.OSVersion.Version.Minor}", System.Globalization.CultureInfo.InvariantCulture) < 6.2, Not KernelExtender, Not Environment.Is64BitOperatingSystem)
+    End Function
     Public Async Sub PSInst(ver As String)
+        For Each hold As Control In Me.Controls
+            If TypeOf hold Is Windows.Forms.Button Then hold.Visible = False
+        Next
+        Label7.Visible = True
+        If ver = "gd22" And AreWeFucked() Then
+            ver = "gd22-old"
+        End If
+        Dim chk = False
+        If Directory.Exists(Path.Combine(RootFS, ver)) Then
+            Backup(ver)
+            chk = True
+        End If
         Dim DLS = "https://cdn-dinde.141412.xyz/"
         Label8.Text = "Downloading..."
         ' tous les memes
@@ -132,9 +180,25 @@ Public Class Form4
                                    File.Delete(verzip)
                                End Sub)
         Await extract
+        If chk Then
+            Restore(ver)
+        End If
         Label8.Text = "Done!"
-        MsgBox("Installed successfully! DindeGDPS will restart...", vbOKOnly + vbInformation, "Instance Manager")
-        Application.Restart()
+        For Each hold As Control In Me.Controls
+            If TypeOf hold Is Windows.Forms.Button Then hold.Visible = True
+        Next
+        Label7.Visible = False
+        If My.Settings.Simple Then
+            Simple.ComboBox1.Items.Clear()
+            Simple.ComboBox1.Items.AddRange(RefreshGDPS())
+            Simple.ComboBox1.Text = My.Settings.DfPS
+        Else
+            Form1.ComboBox1.Items.Clear()
+            Form1.ComboFix()
+        End If
+        ' MsgBox("Installed successfully! DindeGDPS will restart...", vbOKOnly + vbInformation, "Instance Manager")
+        My.Computer.Audio.Play(My.Resources.gg, AudioPlayMode.Background)
+        ' Application.Restart()
     End Sub
     Private Sub DownloadProgressCallback(sender As Object, e As DownloadProgressChangedEventArgs)
         ' Calculate the progress percentage
@@ -163,35 +227,28 @@ Public Class Form4
     End Function
 
     Private Sub LinkLabel2_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel2.LinkClicked
-        Dim val As String = InputBox("Choose GDPS to delete (gd21, gcs, xynelgdps, ...)")
-        If String.IsNullOrEmpty(val) Then
-            Return
-        End If
-
-        If Directory.Exists(Path.Combine(RootFS, val)) Then
-            Directory.Delete(Path.Combine(RootFS, val), True)
-            ' Directory deletion successful
-            MessageBox.Show("Done")
-        Else
-            ' Directory does not exist
-            MessageBox.Show("Directory does not exist.")
-        End If
+        Process.Start(RootFS)
     End Sub
 
     Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
         If Button8.Text = "Install" Then
             PSInst("gd19")
             Button8.Text = "Uninstall"
+            Label9.Text = "Installed!"
         Else
-            Directory.Delete(Path.Combine(RootFS, "gd19"), True)
+            If Directory.Exists(Path.Combine(RootFS, "gd19", "Resources")) Then
+                Directory.Delete(Path.Combine(RootFS, "gd19"), True)
+            End If
+            Form1.ComboBox1.Items.Remove("gd19")
             Button8.Text = "Install"
         End If
     End Sub
 
     Private Async Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
         If Button7.Text = "Update" Then
-            Directory.Delete(Path.Combine(RootFS, "gd19"), True)
             PSInst("gd19")
+            Button8.Text = "Uninstall"
+            Label9.Text = "Installed!"
             Return
         ElseIf Await GDPSVerCheck("gd19", True) = False Then
             Button7.Text = "Update"
@@ -201,5 +258,71 @@ Public Class Form4
 
     Private Sub LinkLabel3_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel3.LinkClicked
         MsgBox("Antivirus solutions can sometimes have false-positives against DindeGDPS." + nl + "To avoid that, add %appdata%\DimisAIO\DindeGDPS\[gd19, gd20, gd21 and gd22] to your antivirus' exceptions!")
+    End Sub
+
+    Private Sub DeleteMods(Version As String)
+        Dim x = MsgBox("Are you sure you want to delete mods?" + nl + "You will have to reinstall this GD version if you want mods again!", vbYesNo + vbExclamation, "Uninstalling Mods")
+        If x <> vbYes Then
+            Return
+        End If
+        If Not Directory.Exists(Path.Combine(RootFS, Version)) Then
+            Return
+        End If
+        ' GD 1.9 => XInput9_1_0.dll & adaf-dll
+        ' GD 2.0 => XInput9_1_0.dll & adaf-dll
+        ' GD 2.1 => XInput9_1_0.dll & geode
+        ' GD 2.2 => XInput1_4.dll & geode
+        Dim Dir1 = Path.Combine(RootFS, Version, "adaf-dll")
+        Dim File1 = Path.Combine(RootFS, Version, "XInput9_1_0.dll")
+        Dim Dir2 = Path.Combine(RootFS, Version, "geode")
+        Dim File2 = Path.Combine(RootFS, Version, "XInput1_4.dll")
+        If Version = "gd19" Or Version = "gd20" Then
+            ' Case: Using GD 1.9 or 2.0 (Delete ProxyDLL)
+            If Directory.Exists(Dir1) Then
+                Directory.Delete(Dir1, True)
+            End If
+            If File.Exists(File1) Then
+                File.Delete(File1)
+            End If
+        Else
+            ' Case: Using GD 2.1 or 2.2 (Delete Geode)
+            If Directory.Exists(Dir2) Then
+                Directory.Delete(Dir2, True)
+            End If
+            If File.Exists(File2) Then
+                File.Delete(File2)
+            End If
+            If File.Exists(File1) Then
+                File.Delete(File1) ' Exists on 2.1 and old versions of 2.2, whoops!
+            End If
+        End If
+        MsgBox("Deletion Done!", vbOKOnly + vbInformation, "Mod Deletion")
+        If Version = "gd21" Then
+            Dim y = MsgBox("Did you want to download Megahack instead?" + nl + "Click Yes to get a full guide!", vbYesNo + vbQuestion, "Megahack?")
+            If y <> vbYes Then
+                Return
+            Else
+                Process.Start("https://cdn-dinde.141412.xyz/mh%20dinde%202.1.pdf")
+            End If
+        End If
+    End Sub
+    Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
+        ' GD 1.9
+        DeleteMods("gd19")
+    End Sub
+
+    Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
+        ' GD 2.0
+        DeleteMods("gd20")
+    End Sub
+
+    Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
+        ' GD 2.1
+        DeleteMods("gd21")
+    End Sub
+
+    Private Sub Button12_Click(sender As Object, e As EventArgs) Handles Button12.Click
+        ' GD 2.2
+        DeleteMods("gd22")
     End Sub
 End Class
