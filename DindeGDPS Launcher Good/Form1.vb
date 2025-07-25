@@ -2,13 +2,18 @@
 Imports System.Globalization
 Imports System.IO
 Imports System.Net
+Imports System.Security.Permissions
 Imports System.Security.Policy
 Imports System.Threading.Tasks
+Imports System.Windows.Controls
 Imports Ionic.Zip
+Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Logging
 Imports Microsoft.Web.WebView2.Core
 Public Class Form1
     Inherits Form
+
+    Dim IsShown As Boolean = True
 
     ' Once upon a time, Environment.CurrentDirectory was widely used. That is... until dgdps:// came out, forcing us to use RootFS
 
@@ -19,6 +24,27 @@ Public Class Form1
     Public Function What(NColor As String)
         WebView21.CoreWebView2.ExecuteScriptAsync($"document.body.style.color = `{NColor.ToLower}`")
     End Function
+
+    Private Sub HandleActionQuick(GDPSText As String, Action As Integer)
+        Dim isAlphaNum As Boolean = GDPSText.Replace(" ", "").All(Function(c) Char.IsLetterOrDigit(c))
+        Dim GDPS = Path.Combine(RootFS, GDPSText)
+        If Not isAlphaNum Or Not Directory.Exists(GDPS) Then
+            Return
+        End If
+        If Action = 1 Then
+            Process.Start(GDPS)
+        ElseIf Action = 2 Then
+            If MsgBox($"Are you sure you want to delete {GDPSText}?", vbYesNo + vbExclamation, "Delete GDPS?") = vbYes Then
+                Directory.Delete(GDPS, True)
+                ComboBox1.Items.Remove(GDPSText)
+                If File.Exists(Path.Combine(RootFS, "web", "list.js")) Then
+                    File.Delete(Path.Combine(RootFS, "web", "list.js"))
+                    RefreshGDPS()
+                End If
+                WebView21.CoreWebView2.Reload()
+            End If
+        End If
+    End Sub
     Private Async Sub WebView2_CoreWebView2WebMessageReceived(ByVal sender As Object, ByVal e As CoreWebView2WebMessageReceivedEventArgs) Handles WebView21.WebMessageReceived
         Dim message As String = e.TryGetWebMessageAsString()
 
@@ -33,6 +59,8 @@ Public Class Form1
         End If
 
         Select Case message
+            Case "RefreshIsCool"
+                Hello()
             Case "SetColor"
                 WebView21.CoreWebView2.ExecuteScriptAsync($"document.body.style.color = `{My.Settings.Color}`")
                 Return
@@ -61,6 +89,12 @@ Public Class Form1
         End Select
 
         Select Case True
+            Case message.StartsWith("explorer://")
+                message = message.Replace("explorer://", "")
+                HandleActionQuick(message, 1)
+            Case message.StartsWith("delete://")
+                message = message.Replace("delete://", "")
+                HandleActionQuick(message, 2)
             Case message.StartsWith("rot://")
                 message = message.Replace("rot://", "")
                 My.Settings.ComboPos = message
@@ -206,7 +240,7 @@ Public Class Form1
             LogInToolStripMenuItem.Text = "Log Out"
         End If
 
-        If ComboBox1.Text = "none" AndAlso Not String.IsNullOrEmpty(ComboBox1.Items(0)) Then
+        If ComboBox1.Text = "none" AndAlso ComboBox1.Items.Count() > 0 AndAlso Not String.IsNullOrEmpty(ComboBox1.Items(0)) Then
             ComboBox1.Text = ComboBox1.Items(0)
             My.Settings.DfPS = ComboBox1.Items(0)
             My.Settings.Save()
@@ -243,21 +277,7 @@ Public Class Form1
                 End If
 
                 If Not String.IsNullOrEmpty(My.Settings.token) Then
-                    Using client As New Net.WebClient
-                        Dim reqparm As New Specialized.NameValueCollection
-
-                        reqparm.Add("token", My.Settings.token)
-
-                        Dim s As String = "https://gdps.dimisaio.be/api/checkUsername.php"
-
-                        Dim responsebytes = Await client.UploadValuesTaskAsync(New Uri(s), "POST", reqparm)
-                        Dim res = (New Text.UTF8Encoding).GetString(responsebytes)
-                        If res.ToString.ToLower <> My.Settings.Player.ToLower Then
-                            My.Settings.Player = res
-                            WebView21.CoreWebView2.Settings.UserAgent = "UneTesla-" + Origine + "-" + res
-                            WebView21.CoreWebView2.Reload()
-                        End If
-                    End Using
+                    Hello()
                 End If
 
             Catch ex As Exception
@@ -272,7 +292,30 @@ Public Class Form1
                  End Sub)
 
     End Sub
+    Private Async Sub Hello()
+        ' Is it me you're looking for?
+        Using client As New Net.WebClient
+            Dim reqparm As New Specialized.NameValueCollection
 
+            reqparm.Add("token", My.Settings.token)
+
+            Dim s As String = "https://gdps.dimisaio.be/api/checkUsername.php"
+            Dim s2 As String = "https://gdps.dimisaio.be/api/checkRates.php"
+
+            Dim responsebytes = Await client.UploadValuesTaskAsync(New Uri(s), "POST", reqparm)
+            Dim responsebytes2 = Await client.UploadValuesTaskAsync(New Uri(s2), "POST", reqparm)
+            Dim res = (New Text.UTF8Encoding).GetString(responsebytes)
+            Dim res2 = (New Text.UTF8Encoding).GetString(responsebytes2)
+            If res.ToString.ToLower <> My.Settings.Player.ToLower Then
+                My.Settings.Player = res
+                WebView21.CoreWebView2.Settings.UserAgent = "UneTesla-" + Origine + "-" + res
+                WebView21.CoreWebView2.Reload()
+            End If
+            If res2.ToString = "1" Then
+                WebView21.CoreWebView2.ExecuteScriptAsync("alert(`One (or more) of your levels were rated!\nPlay and check out!`)")
+            End If
+        End Using
+    End Sub
     Private Sub WebView21_CoreWebView2InitializationCompleted(sender As Object, e As CoreWebView2InitializationCompletedEventArgs) Handles WebView21.CoreWebView2InitializationCompleted
         If e.IsSuccess Then
             GoHome()
@@ -427,7 +470,6 @@ Public Class Form1
     Private Sub Form1_Closed(sender As Object, e As EventArgs) Handles Me.Closed
         Environment.Exit(0)
     End Sub
-
     Private Sub Form1_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         Select Case e.KeyCode
             Case Keys.F9
@@ -439,9 +481,9 @@ Public Class Form1
             Case Keys.F3
                 MsgBox("Machine, I will cut you down")
             Case Keys.F2
-                ' MsgBox("Did you fuckin know that this key is used so that I debug my shitty code :3")
-                LinkLabel2.Visible = True
-                LinkLabel3.Visible = True
+                MsgBox("Did you fuckin know that this key is used so that I debug my shitty code :3")
+                ' LinkLabel2.Visible = True
+                ' LinkLabel3.Visible = True
         End Select
         Konami(e.KeyCode)
     End Sub
@@ -529,6 +571,45 @@ Public Class Form1
             My.Settings.Player = "Guest"
             My.Settings.token = ""
             LogInToolStripMenuItem.Text = "Log In"
+        End If
+    End Sub
+
+    Private Sub ToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem2.Click
+        MsgBox($"The GDPS will open a file browser. Access the GDPS folder and choose its executable.{nl}All files in the GDPS executable's folder will be copied to DindeGDPS.{nl}After picking, it will FREEZE, so avoid closing it!", vbOKOnly + vbInformation, "Importing a GDPS")
+
+        Dim fd As OpenFileDialog = New OpenFileDialog()
+        fd.Title = "Select your GD Executable"
+        fd.Filter = "GD Executable (*.exe)|*.exe"
+        fd.FilterIndex = 2
+        fd.RestoreDirectory = True
+
+        If fd.ShowDialog() = DialogResult.OK Then
+            Dim FileName = Path.GetFileName(fd.FileName)
+            Dim FolderName = Path.GetDirectoryName(fd.FileName)
+            Dim GDPSName = Path.GetFileNameWithoutExtension(FolderName)
+
+
+            FileSystem.CopyDirectory(FolderName, Path.Combine(RootFS, GDPSName))
+            If Not File.Exists(Path.Combine(FolderName, "info.xml")) Then
+                ' autism
+                Dim XML = $"<?xml version=""1.0"" encoding=""utf-8""?>
+<config>
+    <game>{GDPSName}</game>
+    <version>noupdate</version>
+    <startup>
+        <file>{FileName}</file>
+    </startup>
+</config>"
+                ' Save
+                File.WriteAllText(Path.Combine(RootFS, GDPSName, "info.xml"), XML)
+            End If
+            ComboBox1.Items.Clear()
+            If File.Exists(Path.Combine(RootFS, "web", "list.js")) Then
+                File.Delete(Path.Combine(RootFS, "web", "list.js"))
+            End If
+            ComboFix()
+            MsgBox("Copied successfully!", vbOKOnly + vbInformation, "Done!")
+            WebView21.CoreWebView2.Reload()
         End If
     End Sub
 End Class

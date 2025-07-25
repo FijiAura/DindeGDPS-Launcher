@@ -66,6 +66,11 @@ Public Class Setup2
             If a = vbNo Then
                 e.Cancel = True
             End If
+            ' slop
+            If ComboBox1.Text = "Simple" Then
+                My.Settings.Simple = True
+                My.Settings.Save()
+            End If
         End If
         My.Settings.Premier = False
         My.Settings.Save()

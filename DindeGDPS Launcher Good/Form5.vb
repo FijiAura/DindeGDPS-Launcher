@@ -115,6 +115,8 @@ Public Class Form5
             Restore(name)
         End If
 
+        Await DownloadAsync(url & "/../logo.png", Path.Combine(name, "logo.png"))
+
         Label5.Text = "Done!"
         MsgBox("Installed successfully!" + nl + "DindeGDPS will (re)start.", vbOKOnly + vbInformation, "Instance Manager")
 

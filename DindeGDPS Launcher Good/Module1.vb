@@ -5,6 +5,7 @@ Imports System.Xml
 Imports Microsoft.Win32
 Imports System.Threading.Tasks
 Imports System.Globalization
+Imports Newtonsoft.Json
 Public Module Module1
 
     Public RootFS = AppDomain.CurrentDomain.BaseDirectory
@@ -424,9 +425,34 @@ Public Module Module1
         End If
     End Function
 
+    Public Function MiniRefreshGDPS()
+        ' Get an array of directory names that start with "gd"
+        Dim directoryArray As String() = GetDirKeyword(RootFS)
+        If Not My.Settings.Simple Then
+            For Each gdps In directoryArray
+                If Not File.Exists(Path.Combine(RootFS, gdps, "logo.png")) Then
+                    File.Copy(Path.Combine(RootFS, "default.png"), Path.Combine(RootFS, gdps, "logo.png"))
+                End If
+            Next
+        End If
+    End Function
     Public Function RefreshGDPS()
         ' Get an array of directory names that start with "gd"
         Dim directoryArray As String() = GetDirKeyword(RootFS)
+
+        Dim test As String = ""
+        If Not File.Exists(Path.Combine(RootFS, "web", "list.js")) And Not My.Settings.Simple And directoryArray.Length > 0 Then
+            For Each gdps In directoryArray
+                test += gdps & "||"
+                If Not File.Exists(Path.Combine(RootFS, gdps, "logo.png")) Then
+                    File.Copy(Path.Combine(RootFS, "default.png"), Path.Combine(RootFS, gdps, "logo.png"))
+                End If
+            Next
+            test = test.Substring(0, test.Length - 2)
+            test = $"const gdpses = `{test}`"
+            File.WriteAllText(Path.Combine(RootFS, "web", "list.js"), test)
+        End If
+
         ' Populate the ComboBox with the filtered directory names
         Return directoryArray
     End Function

@@ -4,7 +4,7 @@ Imports System.Threading.Tasks
 Imports System.IO
 Public Class Simple
     Private Sub Simple_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        If ComboBox1.Text = "none" AndAlso Not String.IsNullOrEmpty(ComboBox1.Items(0)) Then
+        If ComboBox1.Text = "none" AndAlso ComboBox1.Items.Count() > 0 AndAlso Not String.IsNullOrEmpty(ComboBox1.Items(0)) Then
             ComboBox1.Text = ComboBox1.Items(0)
             My.Settings.DfPS = ComboBox1.Items(0)
             My.Settings.Save()

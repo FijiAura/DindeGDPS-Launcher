@@ -188,6 +188,9 @@ Public Class Form4
             If TypeOf hold Is Windows.Forms.Button Then hold.Visible = True
         Next
         Label7.Visible = False
+        If File.Exists(Path.Combine(RootFS, "web", "list.js")) Then
+            File.Delete(Path.Combine(RootFS, "web", "list.js"))
+        End If
         If My.Settings.Simple Then
             Simple.ComboBox1.Items.Clear()
             Simple.ComboBox1.Items.AddRange(RefreshGDPS())

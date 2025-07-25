@@ -42,7 +42,7 @@
       <Value Profile="(Default)">Default</Value>
     </Setting>
     <Setting Name="WebVersion" Type="System.String" Scope="User">
-      <Value Profile="(Default)">1.01</Value>
+      <Value Profile="(Default)">1.02</Value>
     </Setting>
     <Setting Name="XPoint" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>

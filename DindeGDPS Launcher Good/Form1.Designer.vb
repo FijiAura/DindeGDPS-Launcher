@@ -29,6 +29,7 @@ Partial Class Form1
         Me.LogInToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GD19ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SpecialToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BulgarianToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -61,7 +62,7 @@ Partial Class Form1
         Me.LinkLabel1.LinkColor = System.Drawing.Color.CornflowerBlue
         Me.LinkLabel1.Location = New System.Drawing.Point(8, 417)
         Me.LinkLabel1.Name = "LinkLabel1"
-        Me.LinkLabel1.Size = New System.Drawing.Size(81, 20)
+        Me.LinkLabel1.Size = New System.Drawing.Size(65, 16)
         Me.LinkLabel1.TabIndex = 5
         Me.LinkLabel1.TabStop = True
         Me.LinkLabel1.Text = "Go Home"
@@ -76,19 +77,19 @@ Partial Class Form1
         Me.MenuStrip1.Dock = System.Windows.Forms.DockStyle.None
         Me.MenuStrip1.ImageScalingSize = New System.Drawing.Size(24, 24)
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GDPSToolStripMenuItem, Me.SpecialToolStripMenuItem, Me.HelpToolStripMenuItem})
-        Me.MenuStrip1.Location = New System.Drawing.Point(179, -3)
+        Me.MenuStrip1.Location = New System.Drawing.Point(179, 28)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(338, 25)
+        Me.MenuStrip1.Size = New System.Drawing.Size(418, 25)
         Me.MenuStrip1.TabIndex = 7
         Me.MenuStrip1.Text = "MenuStrip1"
         '
         'GDPSToolStripMenuItem
         '
         Me.GDPSToolStripMenuItem.BackColor = System.Drawing.Color.Black
-        Me.GDPSToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LogInToolStripMenuItem, Me.GD19ToolStripMenuItem, Me.SettingsToolStripMenuItem, Me.ExitToolStripMenuItem})
+        Me.GDPSToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LogInToolStripMenuItem, Me.GD19ToolStripMenuItem, Me.SettingsToolStripMenuItem, Me.ToolStripMenuItem2, Me.ExitToolStripMenuItem})
         Me.GDPSToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.GDPSToolStripMenuItem.Name = "GDPSToolStripMenuItem"
-        Me.GDPSToolStripMenuItem.Size = New System.Drawing.Size(60, 21)
+        Me.GDPSToolStripMenuItem.Size = New System.Drawing.Size(48, 21)
         Me.GDPSToolStripMenuItem.Text = "GDPS"
         '
         'LogInToolStripMenuItem
@@ -96,7 +97,7 @@ Partial Class Form1
         Me.LogInToolStripMenuItem.BackColor = System.Drawing.Color.Black
         Me.LogInToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.LogInToolStripMenuItem.Name = "LogInToolStripMenuItem"
-        Me.LogInToolStripMenuItem.Size = New System.Drawing.Size(209, 26)
+        Me.LogInToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
         Me.LogInToolStripMenuItem.Text = "Log In"
         '
         'GD19ToolStripMenuItem
@@ -104,7 +105,7 @@ Partial Class Form1
         Me.GD19ToolStripMenuItem.BackColor = System.Drawing.Color.Black
         Me.GD19ToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.GD19ToolStripMenuItem.Name = "GD19ToolStripMenuItem"
-        Me.GD19ToolStripMenuItem.Size = New System.Drawing.Size(209, 26)
+        Me.GD19ToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
         Me.GD19ToolStripMenuItem.Text = "Instance Manager"
         '
         'SettingsToolStripMenuItem
@@ -112,15 +113,23 @@ Partial Class Form1
         Me.SettingsToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.SettingsToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem"
-        Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(209, 26)
+        Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
         Me.SettingsToolStripMenuItem.Text = "Legacy Settings"
+        '
+        'ToolStripMenuItem2
+        '
+        Me.ToolStripMenuItem2.BackColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.ToolStripMenuItem2.ForeColor = System.Drawing.Color.CornflowerBlue
+        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(168, 22)
+        Me.ToolStripMenuItem2.Text = "Import GDPS"
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.BackColor = System.Drawing.Color.Black
         Me.ExitToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(209, 26)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'SpecialToolStripMenuItem
@@ -129,7 +138,7 @@ Partial Class Form1
         Me.SpecialToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BulgarianToolStripMenuItem, Me.ClubetteFanArtToolStripMenuItem})
         Me.SpecialToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.SpecialToolStripMenuItem.Name = "SpecialToolStripMenuItem"
-        Me.SpecialToolStripMenuItem.Size = New System.Drawing.Size(71, 21)
+        Me.SpecialToolStripMenuItem.Size = New System.Drawing.Size(56, 21)
         Me.SpecialToolStripMenuItem.Text = "Special"
         '
         'BulgarianToolStripMenuItem
@@ -137,7 +146,7 @@ Partial Class Form1
         Me.BulgarianToolStripMenuItem.BackColor = System.Drawing.Color.Black
         Me.BulgarianToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.BulgarianToolStripMenuItem.Name = "BulgarianToolStripMenuItem"
-        Me.BulgarianToolStripMenuItem.Size = New System.Drawing.Size(195, 26)
+        Me.BulgarianToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
         Me.BulgarianToolStripMenuItem.Text = "Bulgarian"
         '
         'ClubetteFanArtToolStripMenuItem
@@ -146,7 +155,7 @@ Partial Class Form1
         Me.ClubetteFanArtToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HereToolStripMenuItem})
         Me.ClubetteFanArtToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.ClubetteFanArtToolStripMenuItem.Name = "ClubetteFanArtToolStripMenuItem"
-        Me.ClubetteFanArtToolStripMenuItem.Size = New System.Drawing.Size(195, 26)
+        Me.ClubetteFanArtToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
         Me.ClubetteFanArtToolStripMenuItem.Text = "Clubette fan art"
         '
         'HereToolStripMenuItem
@@ -155,7 +164,7 @@ Partial Class Form1
         Me.HereToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HereToolStripMenuItem1})
         Me.HereToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.HereToolStripMenuItem.Name = "HereToolStripMenuItem"
-        Me.HereToolStripMenuItem.Size = New System.Drawing.Size(124, 26)
+        Me.HereToolStripMenuItem.Size = New System.Drawing.Size(99, 22)
         Me.HereToolStripMenuItem.Text = "Here"
         '
         'HereToolStripMenuItem1
@@ -164,7 +173,7 @@ Partial Class Form1
         Me.HereToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HereToolStripMenuItem2})
         Me.HereToolStripMenuItem1.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.HereToolStripMenuItem1.Name = "HereToolStripMenuItem1"
-        Me.HereToolStripMenuItem1.Size = New System.Drawing.Size(124, 26)
+        Me.HereToolStripMenuItem1.Size = New System.Drawing.Size(99, 22)
         Me.HereToolStripMenuItem1.Text = "Here"
         '
         'HereToolStripMenuItem2
@@ -173,7 +182,7 @@ Partial Class Form1
         Me.HereToolStripMenuItem2.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HereToolStripMenuItem3})
         Me.HereToolStripMenuItem2.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.HereToolStripMenuItem2.Name = "HereToolStripMenuItem2"
-        Me.HereToolStripMenuItem2.Size = New System.Drawing.Size(124, 26)
+        Me.HereToolStripMenuItem2.Size = New System.Drawing.Size(99, 22)
         Me.HereToolStripMenuItem2.Text = "Here"
         '
         'HereToolStripMenuItem3
@@ -182,7 +191,7 @@ Partial Class Form1
         Me.HereToolStripMenuItem3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HereToolStripMenuItem4})
         Me.HereToolStripMenuItem3.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.HereToolStripMenuItem3.Name = "HereToolStripMenuItem3"
-        Me.HereToolStripMenuItem3.Size = New System.Drawing.Size(124, 26)
+        Me.HereToolStripMenuItem3.Size = New System.Drawing.Size(99, 22)
         Me.HereToolStripMenuItem3.Text = "Here"
         '
         'HereToolStripMenuItem4
@@ -191,7 +200,7 @@ Partial Class Form1
         Me.HereToolStripMenuItem4.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HereToolStripMenuItem5})
         Me.HereToolStripMenuItem4.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.HereToolStripMenuItem4.Name = "HereToolStripMenuItem4"
-        Me.HereToolStripMenuItem4.Size = New System.Drawing.Size(124, 26)
+        Me.HereToolStripMenuItem4.Size = New System.Drawing.Size(99, 22)
         Me.HereToolStripMenuItem4.Text = "Here"
         '
         'HereToolStripMenuItem5
@@ -200,7 +209,7 @@ Partial Class Form1
         Me.HereToolStripMenuItem5.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HereToolStripMenuItem6})
         Me.HereToolStripMenuItem5.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.HereToolStripMenuItem5.Name = "HereToolStripMenuItem5"
-        Me.HereToolStripMenuItem5.Size = New System.Drawing.Size(124, 26)
+        Me.HereToolStripMenuItem5.Size = New System.Drawing.Size(99, 22)
         Me.HereToolStripMenuItem5.Text = "Here"
         '
         'HereToolStripMenuItem6
@@ -209,7 +218,7 @@ Partial Class Form1
         Me.HereToolStripMenuItem6.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ItsJustHereBruvToolStripMenuItem})
         Me.HereToolStripMenuItem6.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.HereToolStripMenuItem6.Name = "HereToolStripMenuItem6"
-        Me.HereToolStripMenuItem6.Size = New System.Drawing.Size(124, 26)
+        Me.HereToolStripMenuItem6.Size = New System.Drawing.Size(99, 22)
         Me.HereToolStripMenuItem6.Text = "Here"
         '
         'ItsJustHereBruvToolStripMenuItem
@@ -217,7 +226,7 @@ Partial Class Form1
         Me.ItsJustHereBruvToolStripMenuItem.BackColor = System.Drawing.Color.Black
         Me.ItsJustHereBruvToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.ItsJustHereBruvToolStripMenuItem.Name = "ItsJustHereBruvToolStripMenuItem"
-        Me.ItsJustHereBruvToolStripMenuItem.Size = New System.Drawing.Size(212, 26)
+        Me.ItsJustHereBruvToolStripMenuItem.Size = New System.Drawing.Size(173, 22)
         Me.ItsJustHereBruvToolStripMenuItem.Text = "It's just here bruv..."
         '
         'HelpToolStripMenuItem
@@ -226,7 +235,7 @@ Partial Class Form1
         Me.HelpToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BugReportToolStripMenuItem, Me.ToolStripMenuItem1, Me.AboutToolStripMenuItem})
         Me.HelpToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.HelpToolStripMenuItem.Name = "HelpToolStripMenuItem"
-        Me.HelpToolStripMenuItem.Size = New System.Drawing.Size(55, 21)
+        Me.HelpToolStripMenuItem.Size = New System.Drawing.Size(44, 21)
         Me.HelpToolStripMenuItem.Text = "Help"
         '
         'BugReportToolStripMenuItem
@@ -234,7 +243,7 @@ Partial Class Form1
         Me.BugReportToolStripMenuItem.BackColor = System.Drawing.Color.Black
         Me.BugReportToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.BugReportToolStripMenuItem.Name = "BugReportToolStripMenuItem"
-        Me.BugReportToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.BugReportToolStripMenuItem.Size = New System.Drawing.Size(133, 22)
         Me.BugReportToolStripMenuItem.Text = "Bug Report"
         '
         'ToolStripMenuItem1
@@ -242,7 +251,7 @@ Partial Class Form1
         Me.ToolStripMenuItem1.BackColor = System.Drawing.Color.Black
         Me.ToolStripMenuItem1.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(224, 26)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(133, 22)
         Me.ToolStripMenuItem1.Text = "Website"
         '
         'AboutToolStripMenuItem
@@ -250,7 +259,7 @@ Partial Class Form1
         Me.AboutToolStripMenuItem.BackColor = System.Drawing.Color.Black
         Me.AboutToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
-        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(133, 22)
         Me.AboutToolStripMenuItem.Text = "About"
         '
         'WebView21
@@ -285,7 +294,7 @@ Partial Class Form1
         Me.ComboBox1.FormattingEnabled = True
         Me.ComboBox1.Location = New System.Drawing.Point(357, 464)
         Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(153, 24)
+        Me.ComboBox1.Size = New System.Drawing.Size(153, 21)
         Me.ComboBox1.TabIndex = 12
         '
         'LinkLabel2
@@ -295,7 +304,7 @@ Partial Class Form1
         Me.LinkLabel2.LinkColor = System.Drawing.Color.Lime
         Me.LinkLabel2.Location = New System.Drawing.Point(8, 474)
         Me.LinkLabel2.Name = "LinkLabel2"
-        Me.LinkLabel2.Size = New System.Drawing.Size(209, 20)
+        Me.LinkLabel2.Size = New System.Drawing.Size(169, 16)
         Me.LinkLabel2.TabIndex = 15
         Me.LinkLabel2.TabStop = True
         Me.LinkLabel2.Text = "Launcher update available!"
@@ -309,7 +318,7 @@ Partial Class Form1
         Me.LinkLabel3.LinkColor = System.Drawing.Color.Lime
         Me.LinkLabel3.Location = New System.Drawing.Point(8, 453)
         Me.LinkLabel3.Name = "LinkLabel3"
-        Me.LinkLabel3.Size = New System.Drawing.Size(173, 20)
+        Me.LinkLabel3.Size = New System.Drawing.Size(143, 16)
         Me.LinkLabel3.TabIndex = 16
         Me.LinkLabel3.TabStop = True
         Me.LinkLabel3.Text = "Web update available!"
@@ -320,7 +329,7 @@ Partial Class Form1
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.BackColor = System.Drawing.Color.Black
-        Me.ClientSize = New System.Drawing.Size(704, 499)
+        Me.ClientSize = New System.Drawing.Size(784, 561)
         Me.Controls.Add(Me.LinkLabel3)
         Me.Controls.Add(Me.LinkLabel2)
         Me.Controls.Add(Me.ComboBox1)
@@ -331,7 +340,7 @@ Partial Class Form1
         Me.ForeColor = System.Drawing.Color.Black
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip1
-        Me.MinimumSize = New System.Drawing.Size(600, 538)
+        Me.MinimumSize = New System.Drawing.Size(800, 600)
         Me.Name = "Form1"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "DindeGDPS Launcher"
@@ -369,4 +378,5 @@ Partial Class Form1
     Friend WithEvents LinkLabel3 As LinkLabel
     Friend WithEvents BugReportToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents LogInToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem2 As ToolStripMenuItem
 End Class

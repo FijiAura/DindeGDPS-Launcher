@@ -31,6 +31,7 @@ Public Class Loader
     End Sub
 
     Private Async Sub Loader_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
         If File.Exists(Path.Combine(RootFS, "setup.exe")) Then
             File.Delete(Path.Combine(RootFS, "setup.exe"))
         End If
@@ -86,6 +87,11 @@ Public Class Loader
             End If
             OpenWait(Setup2)
             PremierCheck = True
+        End If
+
+        ' another slop to avoid 1st time bug
+        If My.Settings.Player = "Guest" Then
+            player = "Guest"
         End If
 
 
@@ -172,6 +178,8 @@ Public Class Loader
             Hide()
             Simple.Show()
         Else
+            MiniRefreshGDPS()
+
             Form1.ComboBox1.Text = My.Settings.DfPS
 
             Form1.ComboBox1.Items.AddRange(RefreshGDPS())
