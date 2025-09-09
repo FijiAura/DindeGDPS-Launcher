@@ -51,6 +51,8 @@ Partial Class Form1
         Me.ComboBox1 = New System.Windows.Forms.ComboBox()
         Me.LinkLabel2 = New System.Windows.Forms.LinkLabel()
         Me.LinkLabel3 = New System.Windows.Forms.LinkLabel()
+        Me.CodebreakerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FlagsConsoleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.WebView21, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -135,7 +137,7 @@ Partial Class Form1
         'SpecialToolStripMenuItem
         '
         Me.SpecialToolStripMenuItem.BackColor = System.Drawing.Color.Black
-        Me.SpecialToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BulgarianToolStripMenuItem, Me.ClubetteFanArtToolStripMenuItem})
+        Me.SpecialToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CodebreakerToolStripMenuItem, Me.BulgarianToolStripMenuItem, Me.FlagsConsoleToolStripMenuItem, Me.ClubetteFanArtToolStripMenuItem})
         Me.SpecialToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.SpecialToolStripMenuItem.Name = "SpecialToolStripMenuItem"
         Me.SpecialToolStripMenuItem.Size = New System.Drawing.Size(56, 21)
@@ -146,7 +148,7 @@ Partial Class Form1
         Me.BulgarianToolStripMenuItem.BackColor = System.Drawing.Color.Black
         Me.BulgarianToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.BulgarianToolStripMenuItem.Name = "BulgarianToolStripMenuItem"
-        Me.BulgarianToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
+        Me.BulgarianToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.BulgarianToolStripMenuItem.Text = "Bulgarian"
         '
         'ClubetteFanArtToolStripMenuItem
@@ -155,7 +157,7 @@ Partial Class Form1
         Me.ClubetteFanArtToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HereToolStripMenuItem})
         Me.ClubetteFanArtToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.ClubetteFanArtToolStripMenuItem.Name = "ClubetteFanArtToolStripMenuItem"
-        Me.ClubetteFanArtToolStripMenuItem.Size = New System.Drawing.Size(156, 22)
+        Me.ClubetteFanArtToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ClubetteFanArtToolStripMenuItem.Text = "Clubette fan art"
         '
         'HereToolStripMenuItem
@@ -325,6 +327,22 @@ Partial Class Form1
         Me.LinkLabel3.Visible = False
         Me.LinkLabel3.VisitedLinkColor = System.Drawing.Color.Blue
         '
+        'CodebreakerToolStripMenuItem
+        '
+        Me.CodebreakerToolStripMenuItem.BackColor = System.Drawing.Color.Black
+        Me.CodebreakerToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
+        Me.CodebreakerToolStripMenuItem.Name = "CodebreakerToolStripMenuItem"
+        Me.CodebreakerToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CodebreakerToolStripMenuItem.Text = "Codebreaker"
+        '
+        'FlagsConsoleToolStripMenuItem
+        '
+        Me.FlagsConsoleToolStripMenuItem.BackColor = System.Drawing.Color.Black
+        Me.FlagsConsoleToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
+        Me.FlagsConsoleToolStripMenuItem.Name = "FlagsConsoleToolStripMenuItem"
+        Me.FlagsConsoleToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.FlagsConsoleToolStripMenuItem.Text = "Flags Console"
+        '
         'Form1
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
@@ -379,4 +397,6 @@ Partial Class Form1
     Friend WithEvents BugReportToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents LogInToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem2 As ToolStripMenuItem
+    Friend WithEvents CodebreakerToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents FlagsConsoleToolStripMenuItem As ToolStripMenuItem
 End Class

@@ -6,6 +6,10 @@ Imports Microsoft.Win32
 Imports System.Threading.Tasks
 Imports System.Globalization
 Imports Newtonsoft.Json
+Imports System.Windows.Interop
+Imports Newtonsoft.Json.Linq
+Imports Newtonsoft
+Imports System.Security.Policy
 Public Module Module1
 
     Public RootFS = AppDomain.CurrentDomain.BaseDirectory
@@ -114,9 +118,9 @@ Public Module Module1
             BanCheck.ShowDialog()
         End If
 
-            ' FixSave()  excuse me, why is this still there
+        ' FixSave()  excuse me, why is this still there
 
-            Dim gdpsFolderPath As String = Path.Combine(RootFS, PS)
+        Dim gdpsFolderPath As String = Path.Combine(RootFS, PS)
 
         ' Since we have multiple DindeGDPS instances, we rely on info.xml, which means a whole writeup and multiple headaches
 
@@ -188,6 +192,7 @@ Public Module Module1
         ChangeControlColors(BanCheck.Controls, NColor)
         ChangeControlColors(AboutView.Controls, NColor)
         ChangeControlColors(Form5.Controls, NColor)
+        ChangeControlColors(Form6.Controls, NColor)
 
         If My.Settings.Simple = True Then
             ChangeControlColors(Simple.Controls, NColor)
@@ -541,7 +546,7 @@ Public Module Module1
             File.Move(Path.Combine(RootFS, ver + "-backup", "Resources", "menuLoop.mp3"), Path.Combine(RootFS, ver, "Resources", "menuLoop.mp3"))
         End If
         If File.Exists(Path.Combine(RootFS, ver + "-backup", "keep.txt")) Then
-            File.Copy(Path.Combine(RootFS, ver + "-backup", "keep.txt"), Path.Combine(RootFS, ver, "keep.txt"))
+            File.Copy(Path.Combine(RootFS, ver + "-backup", "keep.txt"), Path.Combine(RootFS, ver, "keep.txt"), True)
             Dim x = File.ReadAllText(Path.Combine(RootFS, ver + "-backup", "keep.txt"))
             Dim x2 = x.Split({vbCrLf, vbCr, vbLf}, StringSplitOptions.None)
             For Each xw As String In x2
@@ -561,4 +566,83 @@ Public Module Module1
         End If
         Directory.Delete(Path.Combine(RootFS, ver + "-backup"), True)
     End Sub
+
+    Public Function ReadFlag(FlagName As String)
+        Dim BasePath = Path.Combine(RootFS, "conf", $"{FlagName}.txt")
+        If File.Exists(BasePath) Then
+            Dim FileReader = File.ReadAllText(BasePath)
+            MsgBox(FileReader.Length)
+            If FileReader.Length > 0 Then
+                Return FileReader
+            Else
+                Return True
+            End If
+        End If
+        Return False
+    End Function
+
+    Public Async Sub CheckForUpdates()
+        Dim wc As New WebClient()
+        wc.Headers.Add("User-Agent", "DindeGDPS/" & Application.ProductVersion)
+        Dim UpdateListReq As String = Await wc.DownloadStringTaskAsync("https://api.github.com/repos/DimisAIO/DindeGDPS-Launcher/releases")
+        ' Deserialize into a list of releases
+        Dim UpdateList As List(Of Release) = JsonConvert.DeserializeObject(Of List(Of Release))(UpdateListReq)
+
+        ' Loop through each release
+        For Each Update In UpdateList
+            If My.Settings.Channel = "Beta" AndAlso Update.PreRelease = False Then
+                Continue For
+            End If
+
+            If Application.ProductVersion = Update.Version Then
+                Return
+            End If
+
+            Dim DownloadLink = Update.Assets?.FirstOrDefault().BrowserDownloadUrl
+            If String.IsNullOrEmpty(DownloadLink) Then
+                Return
+            Else
+                UpdateUrl = DownloadLink
+                If My.Settings.Simple = True Then
+                    Simple.LinkLabel1.Visible = True
+                Else
+                    Form1.LinkLabel2.Visible = True
+                End If
+                Return
+            End If
+        Next
+    End Sub
+
+    Private UpdateUrl As String
+    Public Async Sub UpdateLauncher()
+        If String.IsNullOrEmpty(UpdateUrl) Then Return
+        If File.Exists(Path.Combine(RootFS, "setup.exe")) Then
+            File.Delete(Path.Combine(RootFS, "setup.exe"))
+        End If
+        Dim wc As New WebClient
+        Await wc.DownloadFileTaskAsync(New Uri(UpdateUrl), Path.Combine(RootFS, "setup.exe"))
+        Dim Setup As New ProcessStartInfo()
+        Setup.FileName = Path.Combine(RootFS, "setup.exe")
+        Setup.Arguments = "/passive"
+        Dim Exec As New Process()
+        Exec.StartInfo = Setup
+        Exec.Start()
+        Application.Exit()
+    End Sub
 End Module
+
+Public Class Release
+    <JsonProperty("tag_name")>
+    Public Property Version As String
+
+    <JsonProperty("prerelease")>
+    Public Property PreRelease As Boolean
+
+    <JsonProperty("assets")>
+    Public Property Assets As List(Of Asset)
+End Class
+
+Public Class Asset
+    <JsonProperty("browser_download_url")>
+    Public Property BrowserDownloadUrl As String
+End Class

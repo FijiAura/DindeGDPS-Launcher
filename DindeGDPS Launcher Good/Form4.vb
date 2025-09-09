@@ -2,7 +2,9 @@
 Imports Ionic.Zip
 Imports System.Threading.Tasks
 Imports System.Net
+Imports System.Configuration
 Public Class Form4
+    Private IsUsingConsole As Boolean = False
     Private Async Sub Form4_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         If Directory.Exists(Path.Combine(RootFS, "gd19", "Proxy")) Then
@@ -149,7 +151,8 @@ Public Class Form4
         ' Why the heck have I done it one line
         Return If(Decimal.Parse($"{Environment.OSVersion.Version.Major}.{Environment.OSVersion.Version.Minor}", System.Globalization.CultureInfo.InvariantCulture) < 6.2, Not KernelExtender, Not Environment.Is64BitOperatingSystem)
     End Function
-    Public Async Sub PSInst(ver As String)
+    Public Async Function PSInst(ver As String, Optional ConsoleMode As Boolean = False) As Task
+        IsUsingConsole = ConsoleMode
         For Each hold As Control In Me.Controls
             If TypeOf hold Is Windows.Forms.Button Then hold.Visible = False
         Next
@@ -163,18 +166,27 @@ Public Class Form4
             chk = True
         End If
         Dim DLS = "https://cdn-dinde.141412.xyz/"
-        Label8.Text = "Downloading..."
+        If IsUsingConsole Then
+            Form6.TextBox1.Text += "Downloading..." + nl
+        Else
+            Label8.Text = "Downloading..."
+        End If
         ' tous les memes
         Dim verzip = ver + ".zip"
         Await DownloadAsync(DLS + verzip, verzip)
         Directory.CreateDirectory(ver)
+        If IsUsingConsole Then
+            Form6.TextBox1.Text &= "Installing..." & nl
+        End If
         Dim extract = Task.Run(Sub()
                                    Using zip As ZipFile = ZipFile.Read(verzip)
                                        For Each entry As ZipEntry In zip
                                            entry.Extract(ver, ExtractExistingFileAction.OverwriteSilently)
-                                           Me.Invoke(Sub()
-                                                         Me.Label8.Text = "Extracting " + entry.FileName
-                                                     End Sub)
+                                           If Not IsUsingConsole Then
+                                               Me.Invoke(Sub()
+                                                             Me.Label8.Text = "Extracting " + entry.FileName
+                                                         End Sub)
+                                           End If
                                        Next
                                    End Using
                                    File.Delete(verzip)
@@ -183,7 +195,11 @@ Public Class Form4
         If chk Then
             Restore(ver)
         End If
-        Label8.Text = "Done!"
+        If IsUsingConsole Then
+            Form6.TextBox1.Text += "Finished installing " + ver + nl
+        Else
+            Label8.Text = "Done!"
+        End If
         For Each hold As Control In Me.Controls
             If TypeOf hold Is Windows.Forms.Button Then hold.Visible = True
         Next
@@ -202,13 +218,23 @@ Public Class Form4
         ' MsgBox("Installed successfully! DindeGDPS will restart...", vbOKOnly + vbInformation, "Instance Manager")
         My.Computer.Audio.Play(My.Resources.gg, AudioPlayMode.Background)
         ' Application.Restart()
-    End Sub
+        IsUsingConsole = False
+    End Function
+    Dim LastChange As String = ""
     Private Sub DownloadProgressCallback(sender As Object, e As DownloadProgressChangedEventArgs)
         ' Calculate the progress percentage
         Dim progressPercentage As Integer = CInt((CDbl(e.BytesReceived) / e.TotalBytesToReceive) * 100)
 
+        Dim UpdateString = "Downloading (" & progressPercentage & "%)"
         ' Print or use the progress information as needed
-        Label8.Text = "Downloading (" & progressPercentage & "%)"
+        If Not IsUsingConsole Then
+            Label8.Text = UpdateString
+        ElseIf UpdateString <> LastChange Then
+            Form6.Invoke(Sub()
+                             Form6.TextBox1.Text += UpdateString + nl
+                         End Sub)
+            LastChange = UpdateString
+        End If
     End Sub
     Private Async Function DownloadFileAsync(wc As WebClient, uri As Uri, destinationPath As String) As Task
         Await wc.DownloadFileTaskAsync(uri, destinationPath)

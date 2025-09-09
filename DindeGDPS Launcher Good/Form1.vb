@@ -1,4 +1,5 @@
 ﻿Imports System.ComponentModel
+Imports System.Deployment.Application
 Imports System.Globalization
 Imports System.IO
 Imports System.Net
@@ -165,16 +166,21 @@ Public Class Form1
                 My.Settings.DisableUpd = upd
                 My.Settings.Save()
                 Return
-            Case message.StartsWith("music://")
+            Case message.StartsWith("music://"), message.StartsWith("data:audio/mpeg;base64,")
                 Dim quoicoubeh As String() = message.Split("||")
-                Dim mus As String = quoicoubeh(0).Replace("music://", "https://")
                 Dim val As String = quoicoubeh(2)
                 If String.IsNullOrEmpty(val) Then
                     Return
                 End If
-                ' OMG KILL YOURSELF wc.DownloadFile(TextBox2.Text, "gdps\Resources\menuLoop.mp3")
-                Dim wc As New Net.WebClient
-                Await wc.DownloadFileTaskAsync(mus, Path.Combine(val, "Resources", "menuLoop.mp3"))
+                If message.StartsWith("music://") Then
+                    Dim mus As String = quoicoubeh(0).Replace("music://", "https://")
+                    ' OMG KILL YOURSELF wc.DownloadFile(TextBox2.Text, "gdps\Resources\menuLoop.mp3")
+                    Dim wc As New Net.WebClient
+                    Await wc.DownloadFileTaskAsync(mus, Path.Combine(val, "Resources", "menuLoop.mp3"))
+                Else
+                    Dim Hi As Byte() = Convert.FromBase64String(quoicoubeh(0).Replace("data:audio/mpeg;base64,", ""))
+                    File.WriteAllBytes(Path.Combine(val, "Resources", "menuLoop.mp3"), Hi)
+                End If
                 WebView21.CoreWebView2.ExecuteScriptAsync("alert('Done!')")
                 Return
         End Select
@@ -470,7 +476,7 @@ Public Class Form1
     Private Sub Form1_Closed(sender As Object, e As EventArgs) Handles Me.Closed
         Environment.Exit(0)
     End Sub
-    Private Sub Form1_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+    Private Async Sub Form1_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         Select Case e.KeyCode
             Case Keys.F9
                 WebView21.CoreWebView2.Navigate("https://cdn-dinde.141412.xyz/pigeon.mp4")
@@ -481,9 +487,9 @@ Public Class Form1
             Case Keys.F3
                 MsgBox("Machine, I will cut you down")
             Case Keys.F2
-                MsgBox("Did you fuckin know that this key is used so that I debug my shitty code :3")
-                ' LinkLabel2.Visible = True
-                ' LinkLabel3.Visible = True
+                ' MsgBox("Did you fuckin know that this key is used so that I debug my shitty code :3")
+                ' Dim LinkString As String = Await GetUpdateLink()
+                ' MsgBox("Hi: " & LinkString)
         End Select
         Konami(e.KeyCode)
     End Sub
@@ -544,9 +550,7 @@ Public Class Form1
                 centerX = -5
             Case "Right"
                 centerX = Width - 170
-            Case "Center"
-                centerX = (Width - GDPSToolStripMenuItem.Width - 110) \ 2
-            Case Else
+            Case "Center", Else
                 centerX = (Width - GDPSToolStripMenuItem.Width - 110) \ 2
         End Select
 
@@ -567,10 +571,17 @@ Public Class Form1
     Private Sub LogInToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LogInToolStripMenuItem.Click
         If LogInToolStripMenuItem.Text = "Log In" Then
             OpenWait(Setup1)
+            If My.Settings.Player <> "Guest" Then
+                LogInToolStripMenuItem.Text = "Log Out"
+                WebView21.CoreWebView2.Settings.UserAgent = "UneTesla-" + Origine + "-" + My.Settings.Player
+                WebView21.CoreWebView2.Reload()
+            End If
         Else
             My.Settings.Player = "Guest"
             My.Settings.token = ""
             LogInToolStripMenuItem.Text = "Log In"
+            WebView21.CoreWebView2.Settings.UserAgent = "UneTesla-" + Origine + "-Guest"
+            WebView21.CoreWebView2.Reload()
         End If
     End Sub
 
@@ -611,5 +622,14 @@ Public Class Form1
             MsgBox("Copied successfully!", vbOKOnly + vbInformation, "Done!")
             WebView21.CoreWebView2.Reload()
         End If
+    End Sub
+
+    Private Sub CodebreakerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CodebreakerToolStripMenuItem.Click
+        UR_Room1.Show()
+        UR_Room1.BringToFront()
+    End Sub
+
+    Private Sub FlagsConsoleToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FlagsConsoleToolStripMenuItem.Click
+        Form6.ShowDialog()
     End Sub
 End Class

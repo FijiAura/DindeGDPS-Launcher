@@ -127,6 +127,9 @@ Public Class Loader
                 End Select
                 Return
             Else
+                Dim WebViewSettings = Await CoreWebView2Environment.CreateAsync(
+                    Nothing, Nothing,
+                    New CoreWebView2EnvironmentOptions("--enable-features=TranslateUI"))
                 Await Form1.WebView21.EnsureCoreWebView2Async()
                 Form1.WebView21.CoreWebView2.Settings.UserAgent = "UneTesla-" + Origine + "-" + player
             End If

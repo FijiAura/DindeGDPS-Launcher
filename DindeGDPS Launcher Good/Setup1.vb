@@ -94,7 +94,7 @@ Public Class Setup1
         Dim un = TextBox1.Text
         Dim pw = TextBox2.Text
         Dim em = TextBox4.Text
-        Dim lol
+        Dim lol As String
         Using client As New Net.WebClient
             Dim reqparm As New Specialized.NameValueCollection
 
@@ -105,12 +105,21 @@ Public Class Setup1
             If CheckBox1.Checked Then
                 s = "https://gdps.dimisaio.be/database/accounts/registerGJAccount.php"
                 reqparm.Add("email", em)
-            Else
-                s = "https://gdps.dimisaio.be/api/getToken.php"
+
+                Dim responsebytes = client.UploadValues(s, "POST", reqparm)
+                lol = (New Text.UTF8Encoding).GetString(responsebytes)
+
+                If lol.StartsWith("-") Then
+                    Return lol
+                End If
             End If
 
-            Dim responsebytes = client.UploadValues(s, "POST", reqparm)
-            lol = (New Text.UTF8Encoding).GetString(responsebytes)
+            reqparm.Remove("email")
+            s = "https://gdps.dimisaio.be/api/getToken.php"
+
+            Dim responsebytes2 = client.UploadValues(s, "POST", reqparm)
+            lol = (New Text.UTF8Encoding).GetString(responsebytes2)
+
         End Using
 
         Return lol
