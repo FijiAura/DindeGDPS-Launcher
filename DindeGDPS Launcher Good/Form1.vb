@@ -11,6 +11,8 @@ Imports Ionic.Zip
 Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Logging
 Imports Microsoft.Web.WebView2.Core
+Imports Newtonsoft
+Imports Newtonsoft.Json
 Public Class Form1
     Inherits Form
 
@@ -46,6 +48,10 @@ Public Class Form1
             End If
         End If
     End Sub
+    Private Sub ForgottenMessage()
+        Loader.SayHi = False
+        WebView21.CoreWebView2.ExecuteScriptAsync("alert(`One (or more) of your levels were rated!\nPlay and check out!`)")
+    End Sub
     Private Async Sub WebView2_CoreWebView2WebMessageReceived(ByVal sender As Object, ByVal e As CoreWebView2WebMessageReceivedEventArgs) Handles WebView21.WebMessageReceived
         Dim message As String = e.TryGetWebMessageAsString()
 
@@ -60,8 +66,13 @@ Public Class Form1
         End If
 
         Select Case message
+            Case "reversesyncbtn"
+                My.Settings.Sync = Not My.Settings.Sync
             Case "RefreshIsCool"
-                Hello()
+                Await Loader.Hello(True)
+                If Loader.SayHi Then
+                    ForgottenMessage()
+                End If
             Case "SetColor"
                 WebView21.CoreWebView2.ExecuteScriptAsync($"document.body.style.color = `{My.Settings.Color}`")
                 Return
@@ -77,10 +88,12 @@ Public Class Form1
             Case "uquery"
                 Dim q = (Not My.Settings.DisableUpd).ToString.ToLower
                 Dim c = (My.Settings.CloseLauncher).ToString.ToLower
+                Dim s = (My.Settings.Sync).ToString.ToLower
                 WebView21.CoreWebView2.ExecuteScriptAsync($"document.getElementById(`cupdates`).checked = {q}")
                 WebView21.CoreWebView2.ExecuteScriptAsync($"document.getElementById(`clauncher`).checked = {c}")
                 WebView21.CoreWebView2.ExecuteScriptAsync($"document.getElementById(`uchannel`).value = `{My.Settings.Channel}`")
                 WebView21.CoreWebView2.ExecuteScriptAsync($"document.getElementById(`lang`).value = `{Origine}`")
+                WebView21.CoreWebView2.ExecuteScriptAsync($"document.getElementById(`sync`).checked = `{s}`")
                 Return
             Case "GoSimple"
                 My.Settings.Simple = True
@@ -210,36 +223,6 @@ Public Class Form1
     Private Sub Label3_Click(sender As Object, e As EventArgs)
 
     End Sub
-
-    Private Async Sub UpdateWeb()
-        If File.Exists(Path.Combine(RootFS, "web.zip")) Then
-            File.Delete(Path.Combine(RootFS, "web.zip"))
-        End If
-        Dim wc As New WebClient
-        ' fml why did I put cdn-dinde behind cloudflare
-        ' Randomize()
-        ' Await wc.DownloadFileTaskAsync(New Uri("https://cdn-dinde.141412.xyz/web.zip?" + CInt(Int((99999 * Rnd()) + 1)).ToString), Path.Combine(RootFS, "web.zip"))
-        Await wc.DownloadFileTaskAsync(New Uri("https://cdn-dinde.141412.xyz/web.zip"), Path.Combine(RootFS, "web.zip"))
-        If Directory.Exists(Path.Combine(RootFS, "web")) Then
-            Directory.Delete(Path.Combine(RootFS, "web"), True)
-        End If
-        Directory.CreateDirectory(Path.Combine(RootFS, "web"))
-        Dim extract = Task.Run(Sub()
-                                   Using zip As ZipFile = ZipFile.Read("web.zip")
-                                       For Each entry As ZipEntry In zip
-                                           entry.Extract("web", ExtractExistingFileAction.OverwriteSilently)
-                                       Next
-                                   End Using
-                                   File.Delete("web.zip")
-                               End Sub)
-        Await extract
-        Dim taskme2 As Task(Of String) = Task.Run(Async Function() Await wc.DownloadStringTaskAsync("https://dogcheck.dimisaio.be/?client=launcher&channel=web"))
-        Dim result2 As String = Await taskme2
-        My.Settings.WebVersion = result2
-        My.Settings.Save()
-        GoHome()
-        LinkLabel3.Hide()
-    End Sub
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         If Not String.IsNullOrEmpty(My.Settings.token) Then
@@ -254,73 +237,11 @@ Public Class Form1
 
         KeyPreview = True
 
-        If My.Settings.DisableUpd = False Then
-            Try
-                ServicePointManager.SecurityProtocol = DirectCast(3072, SecurityProtocolType)
-                Dim updaterchk As New WebClient
-                Dim taskme As Task(Of String) = Task.Run(Async Function() Await updaterchk.DownloadStringTaskAsync("https://dogcheck.dimisaio.be/?client=launcher&channel=" + My.Settings.Channel))
-                Dim result As String = Await taskme
-                Dim ver As String
-                ver = Application.ProductVersion
-
-                If ver = result Or result = "-1" Then
-                    Console.WriteLine("OK")
-                Else
-                    LinkLabel2.Visible = True
-                End If
-
-                If Not LinkLabel2.Visible Then
-                    Dim taskme2 As Task(Of String) = Task.Run(Async Function() Await updaterchk.DownloadStringTaskAsync("https://dogcheck.dimisaio.be/?client=launcher&channel=web"))
-                    Dim result2 As String = Await taskme2
-                    Dim ver2 As String
-                    ver2 = My.Settings.WebVersion
-
-                    If ver2 = result2 Or result2 = "-1" Then
-                        Console.WriteLine("OK")
-                    Else
-                        LinkLabel3.Visible = True
-                    End If
-                End If
-
-                If Not String.IsNullOrEmpty(My.Settings.token) Then
-                    Hello()
-                End If
-
-            Catch ex As Exception
-                Console.WriteLine("LA TESLA EST OFFLINE")
-            End Try
-
-        End If
-
         Task.Run(Sub()
                      Dim Proc As New ProServer()
                      Proc.StartServer()
                  End Sub)
 
-    End Sub
-    Private Async Sub Hello()
-        ' Is it me you're looking for?
-        Using client As New Net.WebClient
-            Dim reqparm As New Specialized.NameValueCollection
-
-            reqparm.Add("token", My.Settings.token)
-
-            Dim s As String = "https://gdps.dimisaio.be/api/checkUsername.php"
-            Dim s2 As String = "https://gdps.dimisaio.be/api/checkRates.php"
-
-            Dim responsebytes = Await client.UploadValuesTaskAsync(New Uri(s), "POST", reqparm)
-            Dim responsebytes2 = Await client.UploadValuesTaskAsync(New Uri(s2), "POST", reqparm)
-            Dim res = (New Text.UTF8Encoding).GetString(responsebytes)
-            Dim res2 = (New Text.UTF8Encoding).GetString(responsebytes2)
-            If res.ToString.ToLower <> My.Settings.Player.ToLower Then
-                My.Settings.Player = res
-                WebView21.CoreWebView2.Settings.UserAgent = "UneTesla-" + Origine + "-" + res
-                WebView21.CoreWebView2.Reload()
-            End If
-            If res2.ToString = "1" Then
-                WebView21.CoreWebView2.ExecuteScriptAsync("alert(`One (or more) of your levels were rated!\nPlay and check out!`)")
-            End If
-        End Using
     End Sub
     Private Sub WebView21_CoreWebView2InitializationCompleted(sender As Object, e As CoreWebView2InitializationCompletedEventArgs) Handles WebView21.CoreWebView2InitializationCompleted
         If e.IsSuccess Then
@@ -421,12 +342,9 @@ Public Class Form1
     Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles Me.Shown
         ' annoying dog moved all the code.
         ' see Loader.vb's Form.shown :trll:
-        Dim MyFile = Path.Combine(RootFS, "patchnote.txt")
-        If (File.Exists(MyFile)) Then
-            Dim Patch = File.ReadAllText(MyFile)
-            Patches.Label1.Text = "DindeGDPS Updated!" + nl + "Changes for " + Application.ProductVersion
-            Patches.TextBox1.Text = Patch
-            Patches.ShowDialog()
+        ' Actually I farted
+        If Loader.SayHi Then
+            ForgottenMessage()
         End If
     End Sub
 
@@ -487,35 +405,16 @@ Public Class Form1
             Case Keys.F3
                 MsgBox("Machine, I will cut you down")
             Case Keys.F2
+                CheckForUpdates()
                 ' MsgBox("Did you fuckin know that this key is used so that I debug my shitty code :3")
                 ' Dim LinkString As String = Await GetUpdateLink()
                 ' MsgBox("Hi: " & LinkString)
         End Select
         Konami(e.KeyCode)
     End Sub
-    Private Async Sub LinkLabel2_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel2.LinkClicked
+    Private Sub LinkLabel2_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel2.LinkClicked
         LinkLabel2.Text = "Downloading... Please wait"
-        Dim url As String
-        If My.Settings.Channel = "Beta" Then
-            url = "https://cdn-dinde.141412.xyz/DindeGDPS_Beta.exe"
-        Else
-            url = "https://cdn-dinde.141412.xyz/DindeGDPS.exe"
-        End If
-        If File.Exists(Path.Combine(RootFS, "setup.exe")) Then
-            File.Delete(Path.Combine(RootFS, "setup.exe"))
-        End If
-        Dim wc As New WebClient
-        ' fml why did I put cdn-dinde behind cloudflare
-        ' Randomize()
-        ' Await wc.DownloadFileTaskAsync(New Uri($"{url}?{CInt(Int((99999 * Rnd()) + 1)).ToString}"), Path.Combine(RootFS, "setup.exe"))
-        Await wc.DownloadFileTaskAsync(New Uri(url), Path.Combine(RootFS, "setup.exe"))
-        Dim Setup As New ProcessStartInfo()
-        Setup.FileName = Path.Combine(RootFS, "setup.exe")
-        Setup.Arguments = "/passive"
-        Dim Exec As New Process()
-        Exec.StartInfo = Setup
-        Exec.Start()
-        Application.Exit()
+        UpdateLauncher()
     End Sub
 
     Private Sub LinkLabel3_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel3.LinkClicked
@@ -527,6 +426,17 @@ Public Class Form1
         My.Settings.XPoint = Width
         My.Settings.YPoint = Height
         My.Settings.Save()
+        If My.Settings.Player.ToLower() <> "guest" AndAlso Not String.IsNullOrEmpty(My.Settings.token) AndAlso My.Settings.Sync Then
+            Dim Web As New WebClient()
+            Dim reqparm As New Specialized.NameValueCollection From {
+                {"color", My.Settings.Color},
+                {"lang", My.Settings.Language},
+                {"barPos", My.Settings.ComboPos},
+                {"closeOP", My.Settings.CloseLauncher.ToString},
+                {"token", My.Settings.token}
+            }
+            Web.UploadValues("https://gdps.dimisaio.be/api/uploadSettings.php", "POST", reqparm)
+        End If
         Loader.NotifyIcon1.Visible = False
         Loader.NotifyIcon1.Dispose()
     End Sub
@@ -550,7 +460,9 @@ Public Class Form1
                 centerX = -5
             Case "Right"
                 centerX = Width - 170
-            Case "Center", Else
+            Case "Center"
+                centerX = (Width - GDPSToolStripMenuItem.Width - 110) \ 2
+            Case Else
                 centerX = (Width - GDPSToolStripMenuItem.Width - 110) \ 2
         End Select
 
@@ -632,4 +544,10 @@ Public Class Form1
     Private Sub FlagsConsoleToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FlagsConsoleToolStripMenuItem.Click
         Form6.ShowDialog()
     End Sub
+End Class
+Public Class Settings
+    Public Property color As String
+    Public Property lang As String
+    Public Property barPos As String
+    Public Property closeOP As String
 End Class

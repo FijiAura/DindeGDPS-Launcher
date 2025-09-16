@@ -124,6 +124,7 @@ Public Class Form3
         CheckBox1.Checked = Not My.Settings.DisableUpd
         CheckBox2.Checked = My.Settings.CloseLauncher
         ComboBox2.Text = My.Settings.ComboPos
+        CheckBox3.Checked = My.Settings.Sync
     End Sub
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
@@ -196,5 +197,10 @@ Public Class Form3
         My.Settings.ComboPos = ComboBox2.Text
         My.Settings.Save()
         Form1.Form1_Resize(sender, e)
+    End Sub
+
+    Private Sub CheckBox3_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox3.CheckedChanged
+        My.Settings.Sync = CheckBox3.Checked
+        My.Settings.Save()
     End Sub
 End Class

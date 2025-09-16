@@ -42,8 +42,9 @@ Partial Class Form3
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
-        Me.Label1 = New System.Windows.Forms.Label()
         Me.ComboBox2 = New System.Windows.Forms.ComboBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.CheckBox3 = New System.Windows.Forms.CheckBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -55,7 +56,7 @@ Partial Class Form3
         Me.Button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button3.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.Button3.Location = New System.Drawing.Point(24, 84)
-        Me.Button3.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Button3.Margin = New System.Windows.Forms.Padding(4)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(252, 28)
         Me.Button3.TabIndex = 2
@@ -69,8 +70,8 @@ Partial Class Form3
         '
         Me.Button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button4.ForeColor = System.Drawing.Color.CornflowerBlue
-        Me.Button4.Location = New System.Drawing.Point(207, 52)
-        Me.Button4.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Button4.Location = New System.Drawing.Point(207, 71)
+        Me.Button4.Margin = New System.Windows.Forms.Padding(4)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(153, 27)
         Me.Button4.TabIndex = 3
@@ -81,8 +82,8 @@ Partial Class Form3
         '
         Me.TextBox1.BackColor = System.Drawing.SystemColors.InfoText
         Me.TextBox1.ForeColor = System.Drawing.Color.Lime
-        Me.TextBox1.Location = New System.Drawing.Point(24, 52)
-        Me.TextBox1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TextBox1.Location = New System.Drawing.Point(24, 73)
+        Me.TextBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(173, 23)
         Me.TextBox1.TabIndex = 4
@@ -93,7 +94,7 @@ Partial Class Form3
         Me.TextBox2.BackColor = System.Drawing.SystemColors.ControlText
         Me.TextBox2.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.TextBox2.Location = New System.Drawing.Point(24, 20)
-        Me.TextBox2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TextBox2.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.Size = New System.Drawing.Size(173, 23)
         Me.TextBox2.TabIndex = 5
@@ -105,7 +106,7 @@ Partial Class Form3
         Me.Button5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button5.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.Button5.Location = New System.Drawing.Point(215, 18)
-        Me.Button5.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Button5.Margin = New System.Windows.Forms.Padding(4)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(45, 27)
         Me.Button5.TabIndex = 6
@@ -117,7 +118,7 @@ Partial Class Form3
         Me.Button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button7.ForeColor = System.Drawing.Color.Red
         Me.Button7.Location = New System.Drawing.Point(24, 171)
-        Me.Button7.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Button7.Margin = New System.Windows.Forms.Padding(4)
         Me.Button7.Name = "Button7"
         Me.Button7.Size = New System.Drawing.Size(336, 28)
         Me.Button7.TabIndex = 8
@@ -130,7 +131,7 @@ Partial Class Form3
         Me.Button8.ForeColor = System.Drawing.Color.Red
         Me.Button8.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.Button8.Location = New System.Drawing.Point(24, 134)
-        Me.Button8.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Button8.Margin = New System.Windows.Forms.Padding(4)
         Me.Button8.Name = "Button8"
         Me.Button8.Size = New System.Drawing.Size(252, 28)
         Me.Button8.TabIndex = 9
@@ -142,7 +143,7 @@ Partial Class Form3
         Me.CheckBox1.AutoSize = True
         Me.CheckBox1.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.CheckBox1.Location = New System.Drawing.Point(24, 20)
-        Me.CheckBox1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.CheckBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(231, 21)
         Me.CheckBox1.TabIndex = 10
@@ -180,7 +181,7 @@ Partial Class Form3
         Me.ComboBox1.FormattingEnabled = True
         Me.ComboBox1.Items.AddRange(New Object() {"Stable", "Beta"})
         Me.ComboBox1.Location = New System.Drawing.Point(93, 48)
-        Me.ComboBox1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.ComboBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(160, 25)
         Me.ComboBox1.TabIndex = 15
@@ -200,8 +201,8 @@ Partial Class Form3
         '
         Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button1.ForeColor = System.Drawing.Color.Red
-        Me.Button1.Location = New System.Drawing.Point(24, 121)
-        Me.Button1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Button1.Location = New System.Drawing.Point(24, 135)
+        Me.Button1.Margin = New System.Windows.Forms.Padding(4)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(336, 28)
         Me.Button1.TabIndex = 18
@@ -212,8 +213,8 @@ Partial Class Form3
         '
         Me.CheckBox2.AutoSize = True
         Me.CheckBox2.ForeColor = System.Drawing.Color.CornflowerBlue
-        Me.CheckBox2.Location = New System.Drawing.Point(24, 20)
-        Me.CheckBox2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.CheckBox2.Location = New System.Drawing.Point(24, 15)
+        Me.CheckBox2.Margin = New System.Windows.Forms.Padding(4)
         Me.CheckBox2.Name = "CheckBox2"
         Me.CheckBox2.Size = New System.Drawing.Size(203, 21)
         Me.CheckBox2.TabIndex = 19
@@ -227,7 +228,7 @@ Partial Class Form3
         Me.TabControl1.Controls.Add(Me.TabPage3)
         Me.TabControl1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TabControl1.Location = New System.Drawing.Point(-5, 0)
-        Me.TabControl1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TabControl1.Margin = New System.Windows.Forms.Padding(4)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
         Me.TabControl1.Size = New System.Drawing.Size(396, 260)
@@ -240,9 +241,9 @@ Partial Class Form3
         Me.TabPage1.Controls.Add(Me.ComboBox1)
         Me.TabPage1.Controls.Add(Me.Label2)
         Me.TabPage1.Location = New System.Drawing.Point(4, 26)
-        Me.TabPage1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TabPage1.Margin = New System.Windows.Forms.Padding(4)
         Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TabPage1.Padding = New System.Windows.Forms.Padding(4)
         Me.TabPage1.Size = New System.Drawing.Size(388, 230)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Updates"
@@ -257,9 +258,9 @@ Partial Class Form3
         Me.TabPage2.Controls.Add(Me.Button8)
         Me.TabPage2.Controls.Add(Me.LinkLabel1)
         Me.TabPage2.Location = New System.Drawing.Point(4, 26)
-        Me.TabPage2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TabPage2.Margin = New System.Windows.Forms.Padding(4)
         Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(4)
         Me.TabPage2.Size = New System.Drawing.Size(388, 230)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "GDPS"
@@ -267,6 +268,7 @@ Partial Class Form3
         'TabPage3
         '
         Me.TabPage3.BackColor = System.Drawing.Color.Black
+        Me.TabPage3.Controls.Add(Me.CheckBox3)
         Me.TabPage3.Controls.Add(Me.ComboBox2)
         Me.TabPage3.Controls.Add(Me.Label1)
         Me.TabPage3.Controls.Add(Me.CheckBox2)
@@ -275,21 +277,12 @@ Partial Class Form3
         Me.TabPage3.Controls.Add(Me.TextBox1)
         Me.TabPage3.Controls.Add(Me.Button7)
         Me.TabPage3.Location = New System.Drawing.Point(4, 26)
-        Me.TabPage3.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TabPage3.Margin = New System.Windows.Forms.Padding(4)
         Me.TabPage3.Name = "TabPage3"
-        Me.TabPage3.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TabPage3.Padding = New System.Windows.Forms.Padding(4)
         Me.TabPage3.Size = New System.Drawing.Size(388, 230)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Launcher"
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(21, 88)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(77, 17)
-        Me.Label1.TabIndex = 20
-        Me.Label1.Text = "Menu Bar: "
         '
         'ComboBox2
         '
@@ -298,10 +291,29 @@ Partial Class Form3
         Me.ComboBox2.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.ComboBox2.FormattingEnabled = True
         Me.ComboBox2.Items.AddRange(New Object() {"Left", "Right", "Center"})
-        Me.ComboBox2.Location = New System.Drawing.Point(105, 85)
+        Me.ComboBox2.Location = New System.Drawing.Point(105, 103)
         Me.ComboBox2.Name = "ComboBox2"
         Me.ComboBox2.Size = New System.Drawing.Size(255, 25)
         Me.ComboBox2.TabIndex = 21
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(21, 106)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(77, 17)
+        Me.Label1.TabIndex = 20
+        Me.Label1.Text = "Menu Bar: "
+        '
+        'CheckBox3
+        '
+        Me.CheckBox3.AutoSize = True
+        Me.CheckBox3.Location = New System.Drawing.Point(24, 43)
+        Me.CheckBox3.Name = "CheckBox3"
+        Me.CheckBox3.Size = New System.Drawing.Size(243, 21)
+        Me.CheckBox3.TabIndex = 22
+        Me.CheckBox3.Text = "Sync Settings (Account Required)"
+        Me.CheckBox3.UseVisualStyleBackColor = True
         '
         'Form3
         '
@@ -313,7 +325,7 @@ Partial Class Form3
         Me.Controls.Add(Me.TabControl1)
         Me.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.MaximizeBox = False
         Me.MaximumSize = New System.Drawing.Size(397, 285)
         Me.MinimumSize = New System.Drawing.Size(397, 285)
@@ -351,4 +363,5 @@ Partial Class Form3
     Friend WithEvents TabPage3 As TabPage
     Friend WithEvents Label1 As Label
     Friend WithEvents ComboBox2 As ComboBox
+    Friend WithEvents CheckBox3 As CheckBox
 End Class

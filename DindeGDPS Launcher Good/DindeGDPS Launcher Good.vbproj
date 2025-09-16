@@ -335,6 +335,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="dindes.ico" />
+    <None Include="Resources\dindebg1.png" />
+    <None Include="Resources\dindebg.png" />
     <None Include="Resources\snd_hero.wav" />
     <None Include="Resources\dindes.png" />
     <None Include="Resources\logo.png" />

@@ -63,7 +63,7 @@ Partial Class Form6
         Me.MaximumSize = New System.Drawing.Size(511, 524)
         Me.MinimumSize = New System.Drawing.Size(511, 524)
         Me.Name = "Form6"
-        Me.Text = "Flags Editor"
+        Me.Text = "Dev Console"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

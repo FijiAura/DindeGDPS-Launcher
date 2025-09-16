@@ -40,41 +40,8 @@ Public Class Simple
         AboutView.ShowDialog()
     End Sub
 
-    Private Async Sub Simple_Shown(sender As Object, e As EventArgs) Handles Me.Shown
-        If My.Settings.DisableUpd = False Then
-            ServicePointManager.SecurityProtocol = DirectCast(3072, SecurityProtocolType)
-            Dim updaterchk As New WebClient
-            Dim taskme As Task(Of String) = Task.Run(Async Function() Await updaterchk.DownloadStringTaskAsync("https://dogcheck.dimisaio.be/?client=launcher&channel=" + My.Settings.Channel))
-            Dim result As String = Await taskme
-            Dim ver As String
-            ver = Application.ProductVersion
-
-            If ver = result Or result = "-1" Then
-                Console.WriteLine("OK")
-            Else
-                Dim x = MsgBox("DindeGDPS got an update! Do you want to install it?", vbYesNo + vbInformation, "DindeGDPS Updates")
-                If x = vbNo Then
-                    Return
-                End If
-                Dim url As String
-                If My.Settings.Channel = "Beta" Then
-                    url = "https://cdn-dinde.141412.xyz/DindeGDPS_Beta.exe"
-                Else
-                    url = "https://cdn-dinde.141412.xyz/DindeGDPS.exe"
-                End If
-                If File.Exists(Path.Combine(RootFS, "setup.exe")) Then
-                    File.Delete(Path.Combine(RootFS, "setup.exe"))
-                End If
-                Dim wc As New WebClient
-                Await wc.DownloadFileTaskAsync(New Uri(url), Path.Combine(RootFS, "setup.exe"))
-                Dim Setup As New ProcessStartInfo()
-                Setup.FileName = Path.Combine(RootFS, "setup.exe")
-                Setup.Arguments = "/passive"
-                Dim Exec As New Process()
-                Exec.StartInfo = Setup
-                Exec.Start()
-                Application.Exit()
-            End If
-        End If
+    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
+        LinkLabel1.Text = "Downloading... Please wait"
+        UpdateLauncher()
     End Sub
 End Class

@@ -176,7 +176,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Stable")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Beta")>  _
         Public Property Channel() As String
             Get
                 Return CType(Me("Channel"),String)
@@ -267,6 +267,18 @@ Namespace My
             End Get
             Set
                 Me("ComboPos") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property Sync() As Boolean
+            Get
+                Return CType(Me("Sync"),Boolean)
+            End Get
+            Set
+                Me("Sync") = value
             End Set
         End Property
     End Class

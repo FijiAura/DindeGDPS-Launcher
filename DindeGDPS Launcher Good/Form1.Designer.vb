@@ -32,7 +32,9 @@ Partial Class Form1
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SpecialToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CodebreakerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BulgarianToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FlagsConsoleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ClubetteFanArtToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HereToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HereToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
@@ -51,8 +53,6 @@ Partial Class Form1
         Me.ComboBox1 = New System.Windows.Forms.ComboBox()
         Me.LinkLabel2 = New System.Windows.Forms.LinkLabel()
         Me.LinkLabel3 = New System.Windows.Forms.LinkLabel()
-        Me.CodebreakerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.FlagsConsoleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.WebView21, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -99,7 +99,7 @@ Partial Class Form1
         Me.LogInToolStripMenuItem.BackColor = System.Drawing.Color.Black
         Me.LogInToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.LogInToolStripMenuItem.Name = "LogInToolStripMenuItem"
-        Me.LogInToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
+        Me.LogInToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.LogInToolStripMenuItem.Text = "Log In"
         '
         'GD19ToolStripMenuItem
@@ -107,7 +107,7 @@ Partial Class Form1
         Me.GD19ToolStripMenuItem.BackColor = System.Drawing.Color.Black
         Me.GD19ToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.GD19ToolStripMenuItem.Name = "GD19ToolStripMenuItem"
-        Me.GD19ToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
+        Me.GD19ToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.GD19ToolStripMenuItem.Text = "Instance Manager"
         '
         'SettingsToolStripMenuItem
@@ -115,7 +115,7 @@ Partial Class Form1
         Me.SettingsToolStripMenuItem.BackColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.SettingsToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem"
-        Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
+        Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.SettingsToolStripMenuItem.Text = "Legacy Settings"
         '
         'ToolStripMenuItem2
@@ -123,7 +123,7 @@ Partial Class Form1
         Me.ToolStripMenuItem2.BackColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.ToolStripMenuItem2.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(168, 22)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(180, 22)
         Me.ToolStripMenuItem2.Text = "Import GDPS"
         '
         'ExitToolStripMenuItem
@@ -131,7 +131,7 @@ Partial Class Form1
         Me.ExitToolStripMenuItem.BackColor = System.Drawing.Color.Black
         Me.ExitToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(168, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'SpecialToolStripMenuItem
@@ -143,6 +143,14 @@ Partial Class Form1
         Me.SpecialToolStripMenuItem.Size = New System.Drawing.Size(56, 21)
         Me.SpecialToolStripMenuItem.Text = "Special"
         '
+        'CodebreakerToolStripMenuItem
+        '
+        Me.CodebreakerToolStripMenuItem.BackColor = System.Drawing.Color.Black
+        Me.CodebreakerToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
+        Me.CodebreakerToolStripMenuItem.Name = "CodebreakerToolStripMenuItem"
+        Me.CodebreakerToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CodebreakerToolStripMenuItem.Text = "Codebreaker"
+        '
         'BulgarianToolStripMenuItem
         '
         Me.BulgarianToolStripMenuItem.BackColor = System.Drawing.Color.Black
@@ -150,6 +158,14 @@ Partial Class Form1
         Me.BulgarianToolStripMenuItem.Name = "BulgarianToolStripMenuItem"
         Me.BulgarianToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.BulgarianToolStripMenuItem.Text = "Bulgarian"
+        '
+        'FlagsConsoleToolStripMenuItem
+        '
+        Me.FlagsConsoleToolStripMenuItem.BackColor = System.Drawing.Color.Black
+        Me.FlagsConsoleToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
+        Me.FlagsConsoleToolStripMenuItem.Name = "FlagsConsoleToolStripMenuItem"
+        Me.FlagsConsoleToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.FlagsConsoleToolStripMenuItem.Text = "Dev Console"
         '
         'ClubetteFanArtToolStripMenuItem
         '
@@ -296,7 +312,7 @@ Partial Class Form1
         Me.ComboBox1.FormattingEnabled = True
         Me.ComboBox1.Location = New System.Drawing.Point(357, 464)
         Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(153, 21)
+        Me.ComboBox1.Size = New System.Drawing.Size(153, 24)
         Me.ComboBox1.TabIndex = 12
         '
         'LinkLabel2
@@ -326,22 +342,6 @@ Partial Class Form1
         Me.LinkLabel3.Text = "Web update available!"
         Me.LinkLabel3.Visible = False
         Me.LinkLabel3.VisitedLinkColor = System.Drawing.Color.Blue
-        '
-        'CodebreakerToolStripMenuItem
-        '
-        Me.CodebreakerToolStripMenuItem.BackColor = System.Drawing.Color.Black
-        Me.CodebreakerToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
-        Me.CodebreakerToolStripMenuItem.Name = "CodebreakerToolStripMenuItem"
-        Me.CodebreakerToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.CodebreakerToolStripMenuItem.Text = "Codebreaker"
-        '
-        'FlagsConsoleToolStripMenuItem
-        '
-        Me.FlagsConsoleToolStripMenuItem.BackColor = System.Drawing.Color.Black
-        Me.FlagsConsoleToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
-        Me.FlagsConsoleToolStripMenuItem.Name = "FlagsConsoleToolStripMenuItem"
-        Me.FlagsConsoleToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.FlagsConsoleToolStripMenuItem.Text = "Flags Console"
         '
         'Form1
         '

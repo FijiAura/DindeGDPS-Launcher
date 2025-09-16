@@ -33,7 +33,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="Channel" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Stable</Value>
+      <Value Profile="(Default)">Beta</Value>
     </Setting>
     <Setting Name="Simple" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -55,6 +55,9 @@
     </Setting>
     <Setting Name="ComboPos" Type="System.String" Scope="User">
       <Value Profile="(Default)">Center</Value>
+    </Setting>
+    <Setting Name="Sync" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

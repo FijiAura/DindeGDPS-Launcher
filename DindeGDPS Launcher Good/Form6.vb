@@ -19,7 +19,8 @@ Public Class Form6
                     BanCheck.ShowDialog()
                     Return
                 Case "help"
-                    TextBox1.Text += $"Commands:{nl}flag on: turns on a flag{nl}flag off: turns off flag{nl}Example: kernelExt on{nl}clear: Clears console{nl}help: shows help message{nl}triggerbancheck: triggers a Connecting to servers / Ban check{nl}"
+                    ' TextBox1.Text += $"Commands:{nl}flag on: turns on a flag{nl}flag off: turns off flag{nl}Example: kernelExt on{nl}clear: Clears console{nl}help: shows help message{nl}triggerbancheck: triggers a Connecting to servers / Ban check{nl}"
+                    ShowHelp() ' eπσιλον
                     Return
                 Case "clear"
                     TextBox1.Text = ""
@@ -33,6 +34,9 @@ Public Class Form6
                 If Not IsAlphaNum(CommandTest) Then Return
             Next
             Select Case Command(0)
+                Case "load"
+                    TextBox1.Text &= "Loading " & Command(1) & nl
+                    Play(Command(1), Nothing)
                 Case "readflag"
                     If Command.Length < 2 Then
                         TextBox1.Text += "readflag flag1 flag2..." + nl
@@ -158,5 +162,19 @@ Public Class Form6
     Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles TextBox1.TextChanged
         TextBox1.SelectionStart = TextBox1.Text.Length
         TextBox1.ScrollToCaret()
+    End Sub
+    Private Sub ShowHelp(Optional AlsoClearScren As Boolean = False)
+        If File.Exists(Path.Combine(RootFS, "HiConsole.txt")) Then
+            Dim Text As String = File.ReadAllText(Path.Combine(RootFS, "HiConsole.txt"))
+            If AlsoClearScren Then
+                TextBox1.Text = Text & nl
+            Else
+                TextBox1.Text &= Text & nl
+            End If
+        End If
+    End Sub
+
+    Private Sub Form6_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ShowHelp(True)
     End Sub
 End Class

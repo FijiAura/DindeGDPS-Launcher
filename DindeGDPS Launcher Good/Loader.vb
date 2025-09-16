@@ -1,7 +1,6 @@
-﻿Imports System.Globalization
-Imports System.IO
-Imports System.Windows.Input
+﻿Imports System.IO
 Imports Microsoft.Web.WebView2.Core
+Imports Newtonsoft.Json
 
 Public Class Loader
 
@@ -29,9 +28,69 @@ Public Class Loader
             Form4.Show()
         End If
     End Sub
+    Public SayHi As Boolean = False
+    Private Sub MenuItem_Click(sender As Object, e As EventArgs)
+        ' Get the clicked ToolStripMenuItem
+        Dim clickedItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
 
-    Private Async Sub Loader_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ' Get the name of the clicked item
+        Dim itemName As String = clickedItem.Text
 
+        If itemName = "Exit" Then
+            Form1.Close()
+            Simple.Close()
+            Close()
+            Return
+        Else
+            itemName = itemName.Replace("Play ", "")
+        End If
+
+        Play(itemName, ModifierKeys)
+    End Sub
+
+    Public Async Function Hello(Optional RestartBrowser As Boolean = False) As Threading.Tasks.Task
+        If String.IsNullOrEmpty(My.Settings.token) Then Return
+        ' Is it me you're looking for?
+        Using client As New Net.WebClient
+            Dim reqparm As New Specialized.NameValueCollection
+
+            reqparm.Add("token", My.Settings.token)
+
+            Dim s As String = "https://gdps.dimisaio.be/api/checkUsername.php"
+            Dim s2 As String = "https://gdps.dimisaio.be/api/checkRates.php"
+            Dim s3 As String = "https://gdps.dimisaio.be/api/getSettings.php"
+            Try
+                Dim responsebytes = Await client.UploadValuesTaskAsync(New Uri(s), "POST", reqparm)
+                Dim responsebytes2 = Await client.UploadValuesTaskAsync(New Uri(s2), "POST", reqparm)
+                Dim responsebytes3 = Await client.UploadValuesTaskAsync(New Uri(s3), "POST", reqparm)
+                Dim res = (New Text.UTF8Encoding).GetString(responsebytes)
+                Dim res2 = (New Text.UTF8Encoding).GetString(responsebytes2)
+                Dim res3 = (New Text.UTF8Encoding).GetString(responsebytes3)
+                If res.ToString.ToLower <> My.Settings.Player.ToLower Then
+                    My.Settings.Player = res
+                    Form1.WebView21.CoreWebView2.Settings.UserAgent = "UneTesla-" + Origine + "-" + res
+                    If RestartBrowser Then Form1.WebView21.CoreWebView2.Reload()
+                End If
+                If res2.ToString = "1" Then
+                    SayHi = True
+                End If
+                If Not String.IsNullOrEmpty(res3.ToString) AndAlso My.Settings.Sync Then
+                    Dim Settings As Settings = JsonConvert.DeserializeObject(Of Settings)(res3.ToString)
+                    My.Settings.Color = Settings.color
+                    My.Settings.Language = Settings.lang
+                    My.Settings.CloseLauncher = Convert.ToBoolean(Settings.closeOP)
+                    My.Settings.ComboPos = Settings.barPos
+                    ApplyColor(Settings.color)
+                    Form1.Form1_Resize(Nothing, Nothing)
+                    My.Settings.Save()
+                End If
+            Catch ex As Exception
+                Console.WriteLine("ALERTE: LA TESLA EST HORS LIGNE")
+            End Try
+        End Using
+    End Function
+
+    Private Sub Loader_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         If File.Exists(Path.Combine(RootFS, "setup.exe")) Then
             File.Delete(Path.Combine(RootFS, "setup.exe"))
         End If
@@ -63,15 +122,23 @@ Public Class Loader
                 Proc.SendMessage("die")
             End If
         End If
-
+    End Sub
+    Private Async Sub Loader_Shown(sender As Object, e As EventArgs) Handles Me.Shown
         If My.Settings.persistorperish <> False Then
-            ' MsgBox(My.Settings.Player & nl & My.Settings.Premier)
             My.Settings.Upgrade()
             My.Settings.persistorperish = False
             My.Settings.Save()
-            Application.Restart()
-            Environment.Exit(0)
-            ' MsgBox(My.Settings.Player & nl & My.Settings.Premier)
+            ' Thanks to the huge rework, this shouldn't be needed to be changed
+        End If
+
+        CheckForUpdates()
+
+        Dim MyFile = Path.Combine(RootFS, "patchnote.txt")
+        If (File.Exists(MyFile)) Then
+            Dim Patch = File.ReadAllText(MyFile)
+            Patches.Label1.Text = "DindeGDPS Updated!" + nl + "Changes for " + Application.ProductVersion
+            Patches.TextBox1.Text = Patch
+            Patches.ShowDialog()
         End If
 
         Dim player = My.Settings.Player
@@ -127,37 +194,17 @@ Public Class Loader
                 End Select
                 Return
             Else
+                Await Hello()
+                ' i think it's useless
+                Dim DuoLingo As New CoreWebView2EnvironmentOptions()
+                DuoLingo.Language = SafeGuardLang(My.Settings.Language)
                 Dim WebViewSettings = Await CoreWebView2Environment.CreateAsync(
                     Nothing, Nothing,
-                    New CoreWebView2EnvironmentOptions("--enable-features=TranslateUI"))
+                    DuoLingo)
                 Await Form1.WebView21.EnsureCoreWebView2Async()
                 Form1.WebView21.CoreWebView2.Settings.UserAgent = "UneTesla-" + Origine + "-" + player
             End If
         End If
-
-    End Sub
-
-    Private Sub MenuItem_Click(sender As Object, e As EventArgs)
-        ' Get the clicked ToolStripMenuItem
-        Dim clickedItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
-
-        ' Get the name of the clicked item
-        Dim itemName As String = clickedItem.Text
-
-        If itemName = "Exit" Then
-            Form1.Close()
-            Simple.Close()
-            Close()
-            Return
-        Else
-            itemName = itemName.Replace("Play ", "")
-        End If
-
-        Play(itemName, ModifierKeys)
-    End Sub
-
-
-    Private Sub Loader_Shown(sender As Object, e As EventArgs) Handles Me.Shown
 
         ApplyColor(My.Settings.Color)
 

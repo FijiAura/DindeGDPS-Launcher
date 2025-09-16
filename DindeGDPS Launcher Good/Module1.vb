@@ -10,6 +10,7 @@ Imports System.Windows.Interop
 Imports Newtonsoft.Json.Linq
 Imports Newtonsoft
 Imports System.Security.Policy
+Imports Ionic.Zip
 Public Module Module1
 
     Public RootFS = AppDomain.CurrentDomain.BaseDirectory
@@ -582,9 +583,21 @@ Public Module Module1
     End Function
 
     Public Async Sub CheckForUpdates()
+        If My.Settings.DisableUpd = True Then Return
+        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 Or SecurityProtocolType.Tls11
         Dim wc As New WebClient()
         wc.Headers.Add("User-Agent", "DindeGDPS/" & Application.ProductVersion)
-        Dim UpdateListReq As String = Await wc.DownloadStringTaskAsync("https://api.github.com/repos/DimisAIO/DindeGDPS-Launcher/releases")
+
+        Dim url As String = "https://api.github.com/repos/DimisAIO/DindeGDPS-Launcher/releases"
+        If My.Settings.Channel <> "Beta" Then
+            url &= "/latest"
+        Else
+            url &= "?per_page=5"
+        End If
+
+        Dim UpdateListReq As String = Await wc.DownloadStringTaskAsync(url)
+        If My.Settings.Channel <> "Beta" Then UpdateListReq = "[" & UpdateListReq & "]" ' hmm
+
         ' Deserialize into a list of releases
         Dim UpdateList As List(Of Release) = JsonConvert.DeserializeObject(Of List(Of Release))(UpdateListReq)
 
@@ -595,11 +608,12 @@ Public Module Module1
             End If
 
             If Application.ProductVersion = Update.Version Then
-                Return
+                Continue For
             End If
 
             Dim DownloadLink = Update.Assets?.FirstOrDefault().BrowserDownloadUrl
             If String.IsNullOrEmpty(DownloadLink) Then
+                CheckForWebUpdates()
                 Return
             Else
                 UpdateUrl = DownloadLink
@@ -611,9 +625,42 @@ Public Module Module1
                 Return
             End If
         Next
+        CheckForWebUpdates()
+    End Sub
+
+    Public Async Sub CheckForWebUpdates()
+        If My.Settings.DisableUpd Or My.Settings.Simple Then Return
+        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 Or SecurityProtocolType.Tls11
+        Dim wc As New WebClient()
+        wc.Headers.Add("User-Agent", "DindeGDPS/" & Application.ProductVersion)
+
+        Dim url As String = "https://api.github.com/repos/DimisAIO/DindeGDPS-Launcher-web/releases/latest"
+
+        Dim UpdateListReq As String = Await wc.DownloadStringTaskAsync(url)
+        UpdateListReq = "[" & UpdateListReq & "]" ' hmm
+
+        ' Deserialize into a list of releases
+        Dim UpdateList As List(Of Release) = JsonConvert.DeserializeObject(Of List(Of Release))(UpdateListReq)
+
+        ' Loop through each release
+        For Each Update In UpdateList
+
+            If Application.ProductVersion = Update.Version Then
+                Return
+            End If
+
+            Dim DownloadLink = Update.Assets?.FirstOrDefault().BrowserDownloadUrl
+            If String.IsNullOrEmpty(DownloadLink) Then
+                Return
+            Else
+                Form1.LinkLabel2.Visible = True
+                NextWebVersion = Update.Version
+            End If
+        Next
     End Sub
 
     Private UpdateUrl As String
+    Private NextWebVersion As String
     Public Async Sub UpdateLauncher()
         If String.IsNullOrEmpty(UpdateUrl) Then Return
         If File.Exists(Path.Combine(RootFS, "setup.exe")) Then
@@ -628,6 +675,35 @@ Public Module Module1
         Exec.StartInfo = Setup
         Exec.Start()
         Application.Exit()
+    End Sub
+
+    Public Async Sub UpdateWeb()
+        If File.Exists(Path.Combine(RootFS, "web.zip")) Then
+            File.Delete(Path.Combine(RootFS, "web.zip"))
+        End If
+        Dim wc As New WebClient
+        ' fml why did I put cdn-dinde behind cloudflare
+        ' Randomize()
+        ' Await wc.DownloadFileTaskAsync(New Uri("https://cdn-dinde.141412.xyz/web.zip?" + CInt(Int((99999 * Rnd()) + 1)).ToString), Path.Combine(RootFS, "web.zip"))
+        Await wc.DownloadFileTaskAsync(New Uri("https://github.com/DimisAIO/DindeGDPS-Launcher-web/releases/latest/download/web.zip"), Path.Combine(RootFS, "web.zip"))
+        If Directory.Exists(Path.Combine(RootFS, "web")) Then
+            Directory.Delete(Path.Combine(RootFS, "web"), True)
+        End If
+        Directory.CreateDirectory(Path.Combine(RootFS, "web"))
+        Dim extract = Task.Run(Sub()
+                                   Using zip As ZipFile = ZipFile.Read("web.zip")
+                                       For Each entry As ZipEntry In zip
+                                           entry.Extract("web", ExtractExistingFileAction.OverwriteSilently)
+                                       Next
+                                   End Using
+                                   File.Delete("web.zip")
+                               End Sub)
+        Await extract
+        My.Settings.WebVersion = NextWebVersion
+        NextWebVersion = ""
+        My.Settings.Save()
+        Form1.GoHome()
+        Form1.LinkLabel3.Hide()
     End Sub
 End Module
 

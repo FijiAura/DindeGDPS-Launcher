@@ -1,4 +1,7 @@
-﻿Imports System.Net
+﻿Imports System.ComponentModel
+Imports System.Net
+Imports System.Threading
+Imports System.Threading.Tasks
 
 Public Class UR_Room1
     Private Sub Room1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -32,10 +35,27 @@ Public Class UR_Room1
         Try
             Dim WebClient = New WebClient
             Dim result As String = Await WebClient.DownloadStringTaskAsync(New Uri("https://dogcheck.dimisaio.be/codebreaker.txt"))
-            Label5.Text = result
+            StartAsyncLoop(result)
         Catch ex As Exception
             Label5.Text = "Error :("
         End Try
         Label5.Location = New Point(5, 9S)
+    End Sub
+
+    Dim Closit = False
+    Private Async Sub StartAsyncLoop(Tesla As String)
+        Dim Guesses = Tesla.Split({vbCr, vbLf}, StringSplitOptions.RemoveEmptyEntries)
+        Closit = False
+        While Not Closit
+            For Each Guess In Guesses
+                Label5.Text = Guess
+                Await Task.Delay(600)
+            Next
+        End While
+        Label5.Text = "Waiting for a call..."
+    End Sub
+
+    Private Sub UR_Room1_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+        Closit = True
     End Sub
 End Class
