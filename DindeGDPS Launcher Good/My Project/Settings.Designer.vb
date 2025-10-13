@@ -176,7 +176,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Beta")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Release")>  _
         Public Property Channel() As String
             Get
                 Return CType(Me("Channel"),String)

@@ -36,9 +36,10 @@ Partial Class Setup2
         'CheckBox1
         '
         Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(12, 12)
+        Me.CheckBox1.Location = New System.Drawing.Point(16, 15)
+        Me.CheckBox1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(113, 17)
+        Me.CheckBox1.Size = New System.Drawing.Size(137, 20)
         Me.CheckBox1.TabIndex = 0
         Me.CheckBox1.Text = "Check for updates"
         Me.CheckBox1.UseVisualStyleBackColor = True
@@ -46,9 +47,10 @@ Partial Class Setup2
         'CheckBox2
         '
         Me.CheckBox2.AutoSize = True
-        Me.CheckBox2.Location = New System.Drawing.Point(12, 35)
+        Me.CheckBox2.Location = New System.Drawing.Point(16, 43)
+        Me.CheckBox2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.CheckBox2.Name = "CheckBox2"
-        Me.CheckBox2.Size = New System.Drawing.Size(132, 17)
+        Me.CheckBox2.Size = New System.Drawing.Size(163, 20)
         Me.CheckBox2.TabIndex = 1
         Me.CheckBox2.Text = "Allow custom GDPSes"
         Me.CheckBox2.UseVisualStyleBackColor = True
@@ -56,9 +58,10 @@ Partial Class Setup2
         'Button1
         '
         Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button1.Location = New System.Drawing.Point(241, 46)
+        Me.Button1.Location = New System.Drawing.Point(321, 57)
+        Me.Button1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(221, 23)
+        Me.Button1.Size = New System.Drawing.Size(295, 28)
         Me.Button1.TabIndex = 2
         Me.Button1.Text = "Install 2.0"
         Me.Button1.UseVisualStyleBackColor = True
@@ -66,9 +69,10 @@ Partial Class Setup2
         'Button2
         '
         Me.Button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button2.Location = New System.Drawing.Point(241, 79)
+        Me.Button2.Location = New System.Drawing.Point(321, 97)
+        Me.Button2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(221, 23)
+        Me.Button2.Size = New System.Drawing.Size(295, 28)
         Me.Button2.TabIndex = 3
         Me.Button2.Text = "Install 2.1"
         Me.Button2.UseVisualStyleBackColor = True
@@ -76,9 +80,10 @@ Partial Class Setup2
         'Button3
         '
         Me.Button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button3.Location = New System.Drawing.Point(241, 112)
+        Me.Button3.Location = New System.Drawing.Point(321, 138)
+        Me.Button3.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(221, 23)
+        Me.Button3.Size = New System.Drawing.Size(295, 28)
         Me.Button3.TabIndex = 4
         Me.Button3.Text = "Install 2.2"
         Me.Button3.UseVisualStyleBackColor = True
@@ -86,9 +91,10 @@ Partial Class Setup2
         'Button4
         '
         Me.Button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button4.Location = New System.Drawing.Point(241, 12)
+        Me.Button4.Location = New System.Drawing.Point(321, 15)
+        Me.Button4.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(221, 23)
+        Me.Button4.Size = New System.Drawing.Size(295, 28)
         Me.Button4.TabIndex = 5
         Me.Button4.Text = "Install 1.9"
         Me.Button4.UseVisualStyleBackColor = True
@@ -96,9 +102,10 @@ Partial Class Setup2
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(9, 62)
+        Me.Label1.Location = New System.Drawing.Point(12, 76)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(37, 13)
+        Me.Label1.Size = New System.Drawing.Size(45, 16)
         Me.Label1.TabIndex = 6
         Me.Label1.Text = "Mode:"
         '
@@ -108,18 +115,19 @@ Partial Class Setup2
         Me.ComboBox1.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.ComboBox1.FormattingEnabled = True
         Me.ComboBox1.Items.AddRange(New Object() {"Default", "Simple"})
-        Me.ComboBox1.Location = New System.Drawing.Point(55, 59)
+        Me.ComboBox1.Location = New System.Drawing.Point(73, 73)
+        Me.ComboBox1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(121, 21)
+        Me.ComboBox1.Size = New System.Drawing.Size(160, 24)
         Me.ComboBox1.TabIndex = 7
         Me.ComboBox1.Text = "Default"
         '
         'Setup2
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ControlText
-        Me.ClientSize = New System.Drawing.Size(474, 147)
+        Me.ClientSize = New System.Drawing.Size(629, 171)
         Me.Controls.Add(Me.ComboBox1)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Button4)
@@ -130,9 +138,11 @@ Partial Class Setup2
         Me.Controls.Add(Me.CheckBox1)
         Me.ForeColor = System.Drawing.Color.CornflowerBlue
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.MaximumSize = New System.Drawing.Size(490, 186)
-        Me.MinimumSize = New System.Drawing.Size(490, 186)
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.MaximumSize = New System.Drawing.Size(647, 218)
+        Me.MinimumSize = New System.Drawing.Size(647, 218)
         Me.Name = "Setup2"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Some last changes..."
         Me.ResumeLayout(False)
         Me.PerformLayout()

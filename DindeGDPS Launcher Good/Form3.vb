@@ -133,6 +133,7 @@ Public Class Form3
         Dim w2 = MsgBox("By clicking yes, you confirm all responsibility of your actions. DimisAIO will not take any accountability for your actions!", vbYesNo + vbExclamation, "WARNING")
         If w2 = vbNo Then Return
         My.Settings.Reset()
+        My.Settings.persistorperish = False
         My.Settings.Save()
         MsgBox("Done 👍" + nl + "Restarting...")
         Application.Restart()

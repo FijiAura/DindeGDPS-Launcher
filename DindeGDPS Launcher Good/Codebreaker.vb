@@ -7,6 +7,17 @@ Public Class UR_Room1
     Private Sub Room1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Label1.BringToFront()
+        Task.Run(Sub()
+
+                     While Not Closit
+                         Console.Beep(650, 1000)
+                         Console.Beep(550, 1000)
+                         Console.Beep(450, 1000)
+                         Console.Beep(350, 1000)
+                         Console.Beep(600, 1000)
+                     End While
+
+                 End Sub)
     End Sub
     Private Sub Form1_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         Select Case e.KeyCode
@@ -26,6 +37,8 @@ Public Class UR_Room1
                     Close()
                 Case Label1.Bounds.IntersectsWith(Label4.Bounds)
                     CodeBreaker()
+                Case Label1.Bounds.IntersectsWith(Label6.Bounds)
+                    MsgBox($"Codebreaker is a mini-game in the Launcher coming from the halted project ""Unknown Rooms""{nl}Codebreaker gives hints as to what could be the wraith code!")
             End Select
         End If
     End Sub

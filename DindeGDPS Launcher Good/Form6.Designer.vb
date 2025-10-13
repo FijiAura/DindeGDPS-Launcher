@@ -56,13 +56,14 @@ Partial Class Form6
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(495, 485)
+        Me.ClientSize = New System.Drawing.Size(493, 477)
         Me.Controls.Add(Me.TextBox2)
         Me.Controls.Add(Me.TextBox1)
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.MaximumSize = New System.Drawing.Size(511, 524)
         Me.MinimumSize = New System.Drawing.Size(511, 524)
         Me.Name = "Form6"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Dev Console"
         Me.ResumeLayout(False)
         Me.PerformLayout()

@@ -11,6 +11,7 @@ Imports Newtonsoft.Json.Linq
 Imports Newtonsoft
 Imports System.Security.Policy
 Imports Ionic.Zip
+Imports System.Text
 Public Module Module1
 
     Public RootFS = AppDomain.CurrentDomain.BaseDirectory
@@ -165,6 +166,52 @@ Public Module Module1
                     Dim fileName As String = fileNode.InnerText
                     Dim startInfo As New ProcessStartInfo()
 
+                    If fileName = "GeometryDash.exe" Then
+                        ' Special handling!
+                        Dim Source = Path.Combine(RootFS, "gd22", "Dinde.exe")
+                        Dim Target = Path.Combine(RootFS, "gd22", "GeometryDash.exe")
+                        gdp &= "22"
+                        If File.Exists(Path.Combine(RootFS, "gd", "steam.txt")) Then
+                            Process.Start("steam.exe steam://launch/322170")
+                            Return
+                        ElseIf Not File.Exists(Target) Then
+                            If Not File.Exists(Source) Then
+                                MsgBox("In order to open Geometry Dash via DindeGDPS, you must download DindeGDPS 2.2 first!", vbOKOnly + vbCritical, "DindeGDPS 2.2 not installed!")
+                                Return
+                            End If
+
+
+                            Dim oldBytes As Byte() = Encoding.ASCII.GetBytes("https://gdps.dimisaio.be/")
+                            Dim newBytes As Byte() = Encoding.ASCII.GetBytes("https://www.boomlings.com")
+
+                            Dim data As Byte() = File.ReadAllBytes(Source)
+
+                            Dim replacedCount As Integer = 0
+                            For i As Integer = 0 To data.Length - oldBytes.Length
+                                Dim match As Boolean = True
+                                For j As Integer = 0 To oldBytes.Length - 1
+                                    If data(i + j) <> oldBytes(j) Then
+                                        match = False
+                                        Exit For
+                                    End If
+                                Next
+                                If match Then
+                                    ' copy new bytes into place
+                                    Array.Copy(newBytes, 0, data, i, newBytes.Length)
+                                    replacedCount += 1
+                                    ' advance i so overlapping matches are not re-detected
+                                    i += oldBytes.Length - 1
+                                End If
+                            Next
+
+                            If replacedCount = 0 Then
+                                Throw New Exception("Original text not found in the executable.")
+                            End If
+
+                            File.WriteAllBytes(Target, data)
+                        End If
+                    End If
+
                     If Not String.IsNullOrEmpty(SM) AndAlso Principal = fileName.Replace(".exe", "") Then
                         startInfo.FileName = Path.Combine(gdp, $"{fileName.Replace(".exe", "")}-{SM}.exe")
                     Else
@@ -173,10 +220,10 @@ Public Module Module1
 
                     startInfo.WorkingDirectory = gdp
 
-                    Dim process As New Process()
+                    Dim proc As New Process()
 
-                    process.StartInfo = startInfo
-                    process.Start()
+                    proc.StartInfo = startInfo
+                    proc.Start()
 
                     Thread.Sleep(250) ' condition de ta race
                 End If
@@ -595,11 +642,18 @@ Public Module Module1
             url &= "?per_page=5"
         End If
 
-        Dim UpdateListReq As String = Await wc.DownloadStringTaskAsync(url)
-        If My.Settings.Channel <> "Beta" Then UpdateListReq = "[" & UpdateListReq & "]" ' hmm
+        Dim UpdateListReq As String
+        Dim UpdateList As List(Of Release)
+        Try
+            UpdateListReq = Await wc.DownloadStringTaskAsync(url)
+            If My.Settings.Channel <> "Beta" Then UpdateListReq = "[" & UpdateListReq & "]" ' hmm
 
-        ' Deserialize into a list of releases
-        Dim UpdateList As List(Of Release) = JsonConvert.DeserializeObject(Of List(Of Release))(UpdateListReq)
+            ' Deserialize into a list of releases
+            UpdateList = JsonConvert.DeserializeObject(Of List(Of Release))(UpdateListReq)
+        Catch ex As Exception
+            Console.WriteLine("OFFLINE!!!")
+            Return
+        End Try
 
         ' Loop through each release
         For Each Update In UpdateList
@@ -645,7 +699,7 @@ Public Module Module1
         ' Loop through each release
         For Each Update In UpdateList
 
-            If Application.ProductVersion = Update.Version Then
+            If My.Settings.WebVersion = Update.Version Then
                 Return
             End If
 
@@ -653,7 +707,7 @@ Public Module Module1
             If String.IsNullOrEmpty(DownloadLink) Then
                 Return
             Else
-                Form1.LinkLabel2.Visible = True
+                Form1.LinkLabel3.Visible = True
                 NextWebVersion = Update.Version
             End If
         Next

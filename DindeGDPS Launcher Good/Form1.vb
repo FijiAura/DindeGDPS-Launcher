@@ -39,14 +39,15 @@ Public Class Form1
         ElseIf Action = 2 Then
             If MsgBox($"Are you sure you want to delete {GDPSText}?", vbYesNo + vbExclamation, "Delete GDPS?") = vbYes Then
                 Directory.Delete(GDPS, True)
+                If GDPSText = "gd" AndAlso File.Exists(Path.Combine(RootFS, "gd22", "GeometryDash.exe")) Then File.Delete(Path.Combine(RootFS, "gd22", "GeometryDash.exe"))
                 ComboBox1.Items.Remove(GDPSText)
-                If File.Exists(Path.Combine(RootFS, "web", "list.js")) Then
-                    File.Delete(Path.Combine(RootFS, "web", "list.js"))
-                    RefreshGDPS()
+                    If File.Exists(Path.Combine(RootFS, "web", "list.js")) Then
+                        File.Delete(Path.Combine(RootFS, "web", "list.js"))
+                        RefreshGDPS()
+                    End If
+                    WebView21.CoreWebView2.Reload()
                 End If
-                WebView21.CoreWebView2.Reload()
             End If
-        End If
     End Sub
     Private Sub ForgottenMessage()
         Loader.SayHi = False
@@ -543,6 +544,29 @@ Public Class Form1
 
     Private Sub FlagsConsoleToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FlagsConsoleToolStripMenuItem.Click
         Form6.ShowDialog()
+    End Sub
+
+    Private Sub ToolStripMenuItem3_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem3.Click
+        Dim Init As String = Path.Combine(RootFS, "gd")
+        If Not Directory.Exists(Init) Then Directory.CreateDirectory(Init)
+        Dim XML = "<?xml version=""1.0"" encoding=""utf-8""?>
+<config>
+    <game>gd</game>
+    <version>noupdate</version>
+    <startup>
+        <file>GeometryDash.exe</file>
+    </startup>
+</config>"
+        File.WriteAllText(Path.Combine(Init, "info.xml"), XML)
+        Dim q = MsgBox($"How do you want the entry to run?{nl}Yes: Launch Geometry Dash through steam.{nl}No: Create ""GeometryDash.exe"" through DindeGDPS 2.2", vbYesNo + vbQuestion, "Geometry Dash")
+        If q = vbYes Then
+            File.WriteAllText(Path.Combine(Init, "steam.txt"), "yes")
+        End If
+        If File.Exists(Path.Combine(RootFS, "web", "list.js")) Then
+            File.Delete(Path.Combine(RootFS, "web", "list.js"))
+        End If
+        ComboBox1.Items.Clear()
+        ComboFix()
     End Sub
 End Class
 Public Class Settings

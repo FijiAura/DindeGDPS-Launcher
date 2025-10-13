@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports System.Threading.Tasks
 Imports Newtonsoft.Json.Linq
 
 Public Class Form6
@@ -34,9 +35,15 @@ Public Class Form6
                 If Not IsAlphaNum(CommandTest) Then Return
             Next
             Select Case Command(0)
+                Case "showsplash"
+                    Loader.Show()
+                    Await Task.Delay(Command(1))
+                    Loader.Hide()
+                    Return
                 Case "load"
                     TextBox1.Text &= "Loading " & Command(1) & nl
                     Play(Command(1), Nothing)
+                    Return
                 Case "readflag"
                     If Command.Length < 2 Then
                         TextBox1.Text += "readflag flag1 flag2..." + nl

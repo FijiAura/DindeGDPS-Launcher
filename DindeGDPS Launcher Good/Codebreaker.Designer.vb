@@ -27,6 +27,7 @@ Partial Class UR_Room1
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'Label1
@@ -38,7 +39,7 @@ Partial Class UR_Room1
         Me.Label1.Location = New System.Drawing.Point(576, 462)
         Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(29, 29)
+        Me.Label1.Size = New System.Drawing.Size(35, 36)
         Me.Label1.TabIndex = 1
         Me.Label1.Text = "▉"
         '
@@ -51,7 +52,7 @@ Partial Class UR_Room1
         Me.Label2.Location = New System.Drawing.Point(1055, 526)
         Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(103, 55)
+        Me.Label2.Size = New System.Drawing.Size(131, 69)
         Me.Label2.TabIndex = 2
         Me.Label2.Text = "Exit"
         '
@@ -74,7 +75,7 @@ Partial Class UR_Room1
         Me.Label4.Location = New System.Drawing.Point(403, 225)
         Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(304, 55)
+        Me.Label4.Size = New System.Drawing.Size(374, 69)
         Me.Label4.TabIndex = 4
         Me.Label4.Text = "Codebreaker"
         '
@@ -85,9 +86,22 @@ Partial Class UR_Room1
         Me.Label5.Location = New System.Drawing.Point(331, 11)
         Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(415, 55)
+        Me.Label5.Size = New System.Drawing.Size(524, 69)
         Me.Label5.TabIndex = 5
         Me.Label5.Text = "Waiting for a call..."
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.BackColor = System.Drawing.Color.CornflowerBlue
+        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 36.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.ForeColor = System.Drawing.Color.Black
+        Me.Label6.Location = New System.Drawing.Point(1033, 429)
+        Me.Label6.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(153, 69)
+        Me.Label6.TabIndex = 6
+        Me.Label6.Text = "Help"
         '
         'UR_Room1
         '
@@ -95,6 +109,7 @@ Partial Class UR_Room1
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Black
         Me.ClientSize = New System.Drawing.Size(1208, 604)
+        Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label3)
@@ -115,4 +130,5 @@ Partial Class UR_Room1
     Friend WithEvents Label3 As Label
     Friend WithEvents Label4 As Label
     Friend WithEvents Label5 As Label
+    Friend WithEvents Label6 As Label
 End Class

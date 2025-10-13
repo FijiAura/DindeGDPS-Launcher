@@ -41,6 +41,7 @@ Public Class Setup2
         If CheckBox2.Checked = True Then
             Dim a = MsgBox("By enabling this, the dgdps:// protocol will be enabled. DimisAIO will not take any responsibility if you enable this option!" + Environment.NewLine + "Do you want to enable it?", vbYesNo + vbExclamation, "DindeGDPS - Custom GDPSes")
             If a = vbNo Then
+                CheckBox2.Checked = False
                 Return
             End If
             RegisterProtocol()
