@@ -281,6 +281,11 @@ Public Class Form1
         MsgBox("You're probably an adult bulgarian",, "real")
         Process.Start("https://youtube.com/@alexeez")
     End Sub
+                    
+    Private Sub SurfWebToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SurfWebToolStripMenuItem.Click
+        WebView21.CoreWebView2.Navigate("https://duckduckgo.com/")
+        ' Use Duckduckgo because of lower security to enter site
+    End Sub
 
     Private Sub ItsJustHereBruvToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ItsJustHereBruvToolStripMenuItem.Click
         System.Net.ServicePointManager.SecurityProtocol = DirectCast(3072, System.Net.SecurityProtocolType)
