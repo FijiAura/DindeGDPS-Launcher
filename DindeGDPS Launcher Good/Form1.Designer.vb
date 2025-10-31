@@ -168,6 +168,14 @@ Partial Class Form1
         Me.FlagsConsoleToolStripMenuItem.Size = New System.Drawing.Size(195, 26)
         Me.FlagsConsoleToolStripMenuItem.Text = "Dev Console"
         '
+        'SurfWebToolStripMenuItem
+        '
+        Me.FlagsConsoleToolStripMenuItem.BackColor = System.Drawing.Color.Black
+        Me.FlagsConsoleToolStripMenuItem.ForeColor = System.Drawing.Color.CornflowerBlue
+        Me.FlagsConsoleToolStripMenuItem.Name = "SurfWebToolStripMenuItem"
+        Me.FlagsConsoleToolStripMenuItem.Size = New System.Drawing.Size(195, 26)
+        Me.FlagsConsoleToolStripMenuItem.Text = "Surf The Web"
+        '
         'ClubetteFanArtToolStripMenuItem
         '
         Me.ClubetteFanArtToolStripMenuItem.BackColor = System.Drawing.Color.Black
