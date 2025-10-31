@@ -194,7 +194,7 @@ Partial Class Form4
         Me.LinkLabel2.Size = New System.Drawing.Size(73, 13)
         Me.LinkLabel2.TabIndex = 15
         Me.LinkLabel2.TabStop = True
-        Me.LinkLabel2.Text = "Show RootFS"
+        Me.LinkLabel2.Text = "Show RootFS (GDPS Resources)"
         '
         'Button7
         '
